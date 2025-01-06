@@ -1,0 +1,26 @@
+{
+  "name": "movie_api",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "C:/Users/nils/Documents/CF/movie_api/.git/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "Express": "^3.0.1",
+    "lodash": "^4.17.21",
+    "mkdirp": "^1.0.4"
+  },
+  "devDependencies": {
+    "eslint": "^9.16.0"
+  }
+}
