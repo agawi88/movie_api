@@ -1,28 +1,71 @@
 const express = require("express"),
     morgan = require("morgan");
-    //fs = require('fs'),
-    //path = require('path');
+    fs = require('fs'),
+    path = require('path');
 
 const app = express();
 
 app.use(morgan('common'));
 
-//const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
-//app.use(morgan("combined", {stream: accessLogStream}));
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
+app.use(morgan("combined", {stream: accessLogStream}));
 
-/* app.get('/movies', (req, res, next) => {
-    res.send('Welcome to my app!');
-}); */ //under construction, Step2.2
+let topMovies = [
+    {
+        title: '',
+        director: '',
+    },
+    {
+        title: '',
+        director: '',
+    },
+    {
+        title: '',
+        director: '',
+    },
+    {
+        title: '',
+        director: '',
+    },
+    {
+        title: '',
+        director: '',
+    },
+    {
+        title: '',
+        director: '',
+    },
+    {
+        title: '',
+        director: '',
+    },
+    {
+        title: '',
+        director: '',
+    },
+    {
+        title: '',
+        director: '',
+    },
+    {
+        title: '',
+        director: '',
+    },
+];
 
 app.get('/', (req, res, next) => {
-    res.send('Welcome to my app!');
+    res.send('Welcome to my movie app myFlix!');
 });
 
 app.get('/secreturl', (req, res, next) => {
     res.send('This is a secret url with super top-secret content.')
 });
 
-app.use('/documentation.html', express.static('public'));
+app.get('/documentation.html', express.static('public'));
+
+app.get('/movie', (req, res, next) => {
+    res.json(topMovies);
+});
 
 app.use((err, req, res, next) => {
     console.log(err.stack);
