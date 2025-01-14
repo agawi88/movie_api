@@ -80,6 +80,73 @@ let movies = [
     },
     "ImageURL": "https://upload.wikimedia.org/wikipedia/en/0/03/Prideandprejudiceposter.jpg",
     "Featured": false
+  },
+    {
+    "Title": "Bridget Jones' Diary",
+    "Release Year": 2001,
+    "Setting": "England, London",
+    "Description": "Bridget Jones is determined to improve herself while she looks for love in a year in which she keeps a personal diary.",
+    "Genre": {
+      "Name": "Comedy",
+      "Description": "The comedy genre refers to a category of entertainment that aims to amuse and entertain audiences by using humor, wit, and comedic situations. Comedies are created with the primary intention of eliciting laughter and providing lighthearted enjoyment. They encompass a wide range of styles, tones, and themes, appealing to various tastes and audiences." },
+    "Director": {
+      "Name": "Sharon Maguire",
+      "Bio": "was born in Aberystwyth, Cardiganshire, Wales, UK. She is a director and producer, known for Bridget Jones's Diary (2001), Bridget Jones's Baby (2016) and Incendiary (2008).The character 'Shazza' featured in the books and films of Bridget Jones's Diary was actually based on her personality since she is good friends with the writer of the books.She is also a BBC Documentary Filmmaker. Sharon read English and Drama at Aberystwyth University in Wales before taking a postgraduate course in journalism at the City University in London.She directed one Oscar nominated performance: Renée Zellweger in Bridget Jones's Diary (2001).",
+      "Birth": 1960
+    },
+    "ImageURL": "https://en.wikipedia.org/wiki/File:BridgetJonesDiaryMoviePoster.jpg#/media/File:BridgetJonesDiaryMoviePoster.jpg",
+    "Featured": true
+  },
+      {
+    "Title": "Never Let Me Go",
+    "Release Year": 2010,
+    "Setting": "England",
+    "Description": "The lives of three friends, from their early school days into young adulthood, when the reality of the world they live in comes knocking.",
+    "Genre": {
+      "Name": "Science fiction",
+      "Description": " is a genre of speculative fiction which typically deals with imaginative and futuristic concepts such as advanced science and technology, space exploration, time travel, parallel universes, and extraterrestrial life. It can explore science and technology in different ways, such as human responses to theoretical new advancements, or the consequences thereof.",
+    },
+    "Director": {
+      "Name": "Mark Romanek",
+      "Bio": "born in Chicago, Illinois, USA. He is a director and producer, known for Never Let Me Go (2010), One Hour Photo (2002) and Tales from the Loop (2020). He is married to Brigette Romanek.",
+      "Birth": 1959
+    },
+    "ImageURL": "https://en.wikipedia.org/wiki/File:Neverletmegoposterquad.jpg#/media/File:Neverletmegoposterquad.jpg",
+    "Featured": false
+  },
+        {
+    "Title": "Black Doves",
+    "Release Year": 2024,
+    "Setting": "England, London",
+    "Description": "Helen embarks on a passionate affair with a man who has no idea what her secret identity is. Caught in the crosshairs when her lover falls victim to the dangerous London underworld, Helen's employers call in Sam to protect her.",
+    "Genre": {
+      "Name": "Thriller",
+      "Description": "The thriller genre features suspense, tension, and excitement. These stories are known for keeping audiences on the edge of their seats and delivering intense emotional experiences by revolving around high-stakes situations, dangerous conflicts, and the constant anticipation of unexpected events.",
+    },
+    "Director": {
+      "Name": "Lisa Gunning",
+      "Bio": "an English film director, editor and writer. She began her career in the 1990s, following her graduation from University College London, where she studied English. In 1998, she met director Anthony Minghella while working on a spot for Comic Relief. Their long-running collaboration began with an adaptation of the theatrical short Play as part of the Samuel Beckett season for Channel 4, on which she served as editor. After working on some musical sequences in The Talented Mr. Ripley, her first feature as editor was Minghella's Breaking and Entering in 2006, followed by his pilot for the TV series The No.1 Ladies Detective Agency.",
+      "Birth": 1985
+    },
+    "ImageURL": "https://upload.wikimedia.org/wikipedia/en/0/03/Prideandprejudiceposter.jpg",
+    "Featured": false
+  },
+          {
+    "Title": "Black Doves",
+    "Release Year": 2024,
+    "Setting": "England, London",
+    "Description": "Helen embarks on a passionate affair with a man who has no idea what her secret identity is. Caught in the crosshairs when her lover falls victim to the dangerous London underworld, Helen's employers call in Sam to protect her.",
+    "Genre": {
+      "Name": "Thriller",
+      "Description": "The thriller genre features suspense, tension, and excitement. These stories are known for keeping audiences on the edge of their seats and delivering intense emotional experiences by revolving around high-stakes situations, dangerous conflicts, and the constant anticipation of unexpected events.",
+    },
+    "Director": {
+      "Name": "Lisa Gunning",
+      "Bio": "an English film director, editor and writer. She began her career in the 1990s, following her graduation from University College London, where she studied English. In 1998, she met director Anthony Minghella while working on a spot for Comic Relief. Their long-running collaboration began with an adaptation of the theatrical short Play as part of the Samuel Beckett season for Channel 4, on which she served as editor. After working on some musical sequences in The Talented Mr. Ripley, her first feature as editor was Minghella's Breaking and Entering in 2006, followed by his pilot for the TV series The No.1 Ladies Detective Agency.",
+      "Birth": 1985
+    },
+    "ImageURL": "https://upload.wikimedia.org/wikipedia/en/0/03/Prideandprejudiceposter.jpg",
+    "Featured": false
   }
 ];
 
