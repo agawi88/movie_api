@@ -15,13 +15,13 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {f
 app.use(morgan("combined", {stream: accessLogStream}));
 
 let users = [
-      {
+    {
     id: 1,
     name: "Anna",
     username: "Anna90",
     favoriteMovies: ["Pride and Prejudice"]
     },
-          {
+    {
     id: 2,
     name: "John",
     username: "John25",
@@ -115,55 +115,67 @@ let movies = [
     "Featured": false
   },
         {
-    "Title": "Black Doves",
-    "Release Year": 2024,
-    "Setting": "England, London",
-    "Description": "Helen embarks on a passionate affair with a man who has no idea what her secret identity is. Caught in the crosshairs when her lover falls victim to the dangerous London underworld, Helen's employers call in Sam to protect her.",
+    "Title": "Belfast",
+    "Release Year": 2021,
+    "Setting": "Northern Ireland, Belfast",
+    "Description": "A young boy and his working-class Belfast family experience the tumultuous late 1960s.",
     "Genre": {
-      "Name": "Thriller",
-      "Description": "The thriller genre features suspense, tension, and excitement. These stories are known for keeping audiences on the edge of their seats and delivering intense emotional experiences by revolving around high-stakes situations, dangerous conflicts, and the constant anticipation of unexpected events.",
+      "Name": "Political drama",
+      "Description": "The political drama subgenre features the intricacies of political power, government institutions, political conflicts, and the individuals involved in the political process. These dramas often explore themes of ambition, corruption, ethical dilemmas, and the impact of political decisions on society and individuals.",
     },
     "Director": {
-      "Name": "Lisa Gunning",
-      "Bio": "an English film director, editor and writer. She began her career in the 1990s, following her graduation from University College London, where she studied English. In 1998, she met director Anthony Minghella while working on a spot for Comic Relief. Their long-running collaboration began with an adaptation of the theatrical short Play as part of the Samuel Beckett season for Channel 4, on which she served as editor. After working on some musical sequences in The Talented Mr. Ripley, her first feature as editor was Minghella's Breaking and Entering in 2006, followed by his pilot for the TV series The No.1 Ladies Detective Agency.",
-      "Birth": 1985
+      "Name": "Kenneth Branagh",
+      "Bio": "Kenneth Charles Branagh was born in Belfast, Northern Ireland, to parents William Branagh, a plumber and carpenter, and Frances (Harper), both born in 1930. He has two siblings, William Branagh, Jr. (born 1955) and Joyce Branagh (born 1970). When he was nine, his family escaped The Troubles by moving to Reading, Berkshire, England. At 23, Branagh joined the Royal Shakespeare Company, where he took on starring roles in 'Henry V' and 'Romeo and Juliet'. He soon found the RSC too large and impersonal and formed his own, the Renaissance Theatre Company, which was disbanded in 1992 when he moved more fully into filmmaking. At 29, he directed Henry V (1989), where he also co-starred with his then-wife, Emma Thompson. The film brought him Best Actor and Best Director Oscar nominations. In 1993, he brought Shakespeare to mainstream audiences again with his hit adaptation of Much Ado About Nothing (1993), which featured an all-star cast that included, among others, Denzel Washington, Michael Keaton and Keanu Reeves. At 30, he published his autobiography and, at 34, he directed and starred as 'Victor Frankenstein' in the big-budget adaptation of Mary Shelley's novel, Frankenstein (1994), with Robert De Niro as the monster himself. In 1996, Branagh wrote, directed and starred in a lavish adaptation of Hamlet (1996). His superb film acting work also includes a wide range of roles such as in Celebrity (1998), Wild Wild West (1999), The Road to El Dorado (2000), Valkyrie (2008) and his stunning portrayal of Laurence Olivier in My Week with Marilyn (2011), where once again he offered a great performance that was also nominated for an Academy Award.",
+      "Birth": 1960
     },
-    "ImageURL": "https://upload.wikimedia.org/wikipedia/en/0/03/Prideandprejudiceposter.jpg",
-    "Featured": false
+    "ImageURL": "https://en.wikipedia.org/wiki/File:Belfast_poster.jpg#/media/File:Belfast_poster.jpg",
+    "Featured": true
   },
           {
-    "Title": "Black Doves",
-    "Release Year": 2024,
-    "Setting": "England, London",
-    "Description": "Helen embarks on a passionate affair with a man who has no idea what her secret identity is. Caught in the crosshairs when her lover falls victim to the dangerous London underworld, Helen's employers call in Sam to protect her.",
+    "Title": "Elisabeth",
+    "Release Year": 2007,
+    "Setting": "England",
+    "Description": "A mature Queen Elizabeth endures multiple crises late in her reign including court intrigues, an assassination plot, the Spanish Armada, and romantic disappointments.",
     "Genre": {
-      "Name": "Thriller",
-      "Description": "The thriller genre features suspense, tension, and excitement. These stories are known for keeping audiences on the edge of their seats and delivering intense emotional experiences by revolving around high-stakes situations, dangerous conflicts, and the constant anticipation of unexpected events.",
-    },
+      "Name": "Biography",
+      "Description": "The biography, or biopic, is a genre that portrays the life story of a real person, often a notable individual or historical figure. They aim to provide a depiction of the subject's personal history, achievements, challenges, and impact on society."
+ },
     "Director": {
-      "Name": "Lisa Gunning",
-      "Bio": "an English film director, editor and writer. She began her career in the 1990s, following her graduation from University College London, where she studied English. In 1998, she met director Anthony Minghella while working on a spot for Comic Relief. Their long-running collaboration began with an adaptation of the theatrical short Play as part of the Samuel Beckett season for Channel 4, on which she served as editor. After working on some musical sequences in The Talented Mr. Ripley, her first feature as editor was Minghella's Breaking and Entering in 2006, followed by his pilot for the TV series The No.1 Ladies Detective Agency.",
-      "Birth": 1985
+      "Name": "Shekhar Kapur",
+      "Bio": "born in Lahore, Punjab, British India [now Pakistan]. He is a director and actor, known for Elizabeth (1998), Elizabeth: The Golden Age (2007) and Bandit Queen (1994). He was previously married to Suchitra Krishnamoorthi.",
+      "Birth": 1945
     },
-    "ImageURL": "https://upload.wikimedia.org/wikipedia/en/0/03/Prideandprejudiceposter.jpg",
+    "ImageURL": "https://en.wikipedia.org/wiki/File:Elizabeth_Poster.jpg#/media/File:Elizabeth_Poster.jpg",
+    "Featured": true
+  },
+            {
+    "Title": "Outlander",
+    "Release Year": 2014,
+    "Setting": "England, Scottland, United States of America, France",
+    "Description": "Claire Beauchamp Randall, a nurse in World War II, mysteriously goes back in time to Scotland in 1743. There, she meets a dashing Highland warrior and gets drawn into an epic rebellion.",
+    "Genre": {
+        "Name": "Adventure",
+        "Description": "The adventure genre features exciting journeys, quests, or expeditions undertaken by characters who often face challenges, obstacles, and risks in pursuit of a goal. Adventures can take place in a wide range of settings, from exotic and fantastical locations to historical or even everyday environments."
+      },
+    "Director": {
+      "Name": "n/a",
+      "Bio": "n/a",
+      "Birth": "n/a",
+    },
+    "ImageURL": "https://en.wikipedia.org/wiki/File:Outlander-TV_series-2014.jpg#/media/File:Outlander-TV_series-2014.jpg",
     "Featured": false
-  }
+  },
 ];
 
-app.get('/', (req, res, next) => {
+app.get('/', (req, res) => {
     res.send('Welcome to my movie app myFlix!');
 });
 
-app.get('/secreturl', (req, res, next) => {
+app.get('/secreturl', (req, res) => {
     res.send('This is a secret url with super top-secret content.')
 });
 
 app.get('/documentation.html', express.static('public'));
-
-app.get('/movies', (req, res, next) => {
-    res.json(Movies);
-});
-
 
 //CREATE/POST allows to create a new username, that is: allows users to register
 
@@ -262,8 +274,10 @@ app.get('/movies/:title', (req, res) => {
 //READ, gets the genre of a movie and its description
 
 app.get('/movies/genre/:genreName', (req, res) => {
-  const { genreName } = req.params;
-  //const movie = movies.find( movie => movie.Title === title);
+  const { genre, genreName } = req.params;
+
+  const movie = movies.find(movie => movie.Title === title);
+  const title = movies.find( title => movie.Title === title);
   const genre = movies.find( movie => movie.Genre.Name === genreName ).Genre;
 
   if (movie) {
