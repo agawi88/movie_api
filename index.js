@@ -97,13 +97,8 @@ app.get('/movies', (req, res, next) => {
     res.json(Movies);
 });
 
-//USERS
 
-app.get('/users', (req, res) => {
-      res.status(200).json(users);
-})
-
-//CREATE/POST allows to create a new username
+//CREATE/POST allows to create a new username, that is: allows users to register
 
 app.post('/users', (req, res) => {
   let newUser = req.body;
