@@ -8,5 +8,82 @@
 <body>
     <h1>Movies API</h1>
     <p>An API for an application called “myFlix” that interacts with a database that stores data about different movies</p>
+
+    <h2>Documentation of Endpoints</h2>
+    <table>
+<tr>
+    <th>Business Logic</th>
+    <th>URL</th>
+    <th>HTTP Method</th>
+    <th>Request Body Data Format</th>
+    <th>Response Body Data Format</th>
+</tr>
+<tr>
+    <td> Allow to create a new username, that is: allow users to register</td>
+    <td>/users</td>
+    <td>POST (Create)</td>
+    <td>A JSON object holding data about the user, particularly the user's name that is being registered</td>
+    <td>A JSON object holding data about the user, particularly the user's name that has been added. The uuid creates a new unique ID for the new user.</td>
+</tr>
+<tr>
+    <td> Allow to update their username</td>
+    <td>/users/:id</td>
+    <td>PUT (Update)</td>
+<td>A JSON object holding data about the user, containing user's new name that is being updated</td>
+<td>A JSON object holding data about the user, containing user's updated name</td>
+</tr>
+<tr>
+    <td> Allow the user to add a movie to their favorits with just an info that it has been added
+</td>
+    <td>/users/:id/:movieTitle</td>
+    <td>POST (Create)</td>
+    <td>None</td>
+    <td>A text message that a movie has been added.</td>
+</tr>
+<tr>
+    <td>allows the user to delete a movie from their favorits with just an info that it has been deleted</td>
+    <td>/users/:id/:movieTitle</td>
+    <td>DELETE</td>
+    <td>None</td>
+    <td>Just a text message that the movie has been deleted from the favorites</td>
+</tr>
+<tr>
+    <td>allows the user to delete their user name</td>
+    <td>/users/:id</td>
+    <td>DELETE</td>
+    <td>None</td>
+    <td>Just a text message that the username has been deleted</td>
+</tr>
+<tr>
+    <td> Gets the list of ALL movies and their Data in JSON</td>
+    <td>/movies</td>
+    <td>GET (Read)</td>
+    <td>None</td>
+    <td>A JSON object holding the data about the movies (description, genre, director, image URL, whether it’s featured or not)</td>
+</tr>
+<tr>
+    <td> Gets the data in JSON of a chosen movie by title. </td>
+    <td>/movies/:title</td>
+    <td>GET (Read)</td>
+    <td>None</td>
+    <td>A JSON object holding the data about a movie chosen by title (description, genre, director, image URL, whether it’s featured
+        or not)</td>
+</tr>
+<tr>
+    <td> Gets the data about a genre (description) by name (e.g., “Thriller”) </td>
+    <td>/movies/genre/:genreName</td>
+    <td>GET (Read)</td>
+    <td>None</td>
+    <td>A JSON object holding the data about a genre by name and its description.</td>
+</tr>
+<tr>
+    <td> Gets the data about a director (bio, birth year, death year) by name; </td>
+    <td>/movies/directors/:directorName</td>
+    <td>GET (Read)</td>
+    <td>None</td>
+    <td>A JSON object holding the data about a director by name and its description.</td>
+</tr>
+</table>
+
 </body>
 </html>
