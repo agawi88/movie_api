@@ -273,15 +273,13 @@ app.get('/movies/:title', (req, res) => {
 
 //READ, gets the genre of a movie and its description
 
-app.get('/movies/genre/:genreName', (req, res) => {
-  const { genre, genreName } = req.params;
+app.get('/movies/movie/genre/:genreName', (req, res) => {
+  const { genreName } = req.params;
+  const movie = movies.find(movie => movie.Genre.Name === genreName);
+  //const genre = movies.find( movie => movie.Genre.Name === genreName ).Genre; // Due to be discussed in depth at a session with mentor
 
-  const movie = movies.find(movie => movie.Title === title);
-  const title = movies.find( title => movie.Title === title);
-  const genre = movies.find( movie => movie.Genre.Name === genreName ).Genre;
-
-  if (movie) {
-    res.status(200).json(genre);
+  if (movie) { 
+    res.status(200).json(movie.Genre);
   } else {
     res.status(400).send('no such genre')
       }
@@ -289,12 +287,13 @@ app.get('/movies/genre/:genreName', (req, res) => {
 
 //READ, gets the director's name
 
-app.get('/movies/directors/:directorName', (req, res) => {
+app.get('/movies/movie/directors/:directorName', (req, res) => {
   const { directorName } = req.params;
-  const director = movies.find( movie => movie.Director.Name === directorName ).Director;
+  const movie = movies.find( movie => movie.Director.Name === directorName);
+  //const director = movies.find( movie => movie.Director.Name === directorName ).Director; // Due to be discussed in depth at a session with mentor
 
   if (movie) {
-    res.status(200).json(director);
+    res.status(200).json(movie.Director);
   } else {
     res.status(400).send("no such director")
       }
