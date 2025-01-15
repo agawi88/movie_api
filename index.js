@@ -53,8 +53,8 @@ let movies = [
     "Setting": "England",
     "Description": "In class-conscious England of the late 18th century, the five Bennet sisters—including the determined Elizabeth (Keira Knightley) and the young Lydia (Jena Malone)—are raised by their mother (Brenda Blethyn) with a single goal: a find suitable man and get married. When a wealthy bachelor moves into one of the neighborhood mansions, the Bennets are hopeful: the sisters are sure to find something they like among the new neighbor's many friends. But when Elizabeth meets the charming and - so they say - rather snobbish Mr. Darcy (Matthew MacFadyen) get the dolls dancing...",
     "Genre": {
-      "Name": "Period drama",
-      "Description": "The period drama subgenre transports audiences to the past, immersing them in historical contexts and offering insights into the lives, relationships, and challenges of characters from different time periods."
+      "Name": "Drama",
+      "Description": "In film and television, drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone.[1] The drama of this kind is usually qualified with additional terms that specify its particular super-genre, macro-genre, or micro-genre,[2] such as soap opera, police crime drama, political drama, legal drama, historical drama, domestic drama, teen drama, and comedy-drama (dramedy). These terms tend to indicate a particular setting or subject matter, or they combine a drama's otherwise serious tone with elements that encourage a broader range of moods. To these ends, a primary element in a drama is the occurrence of conflict—emotional, social, or otherwise—and its resolution in the course of the storyline."
     },
     "Director": {
       "Name": "Joe Wright",
@@ -103,8 +103,8 @@ let movies = [
     "Setting": "England",
     "Description": "The lives of three friends, from their early school days into young adulthood, when the reality of the world they live in comes knocking.",
     "Genre": {
-      "Name": "Science fiction",
-      "Description": " is a genre of speculative fiction which typically deals with imaginative and futuristic concepts such as advanced science and technology, space exploration, time travel, parallel universes, and extraterrestrial life. It can explore science and technology in different ways, such as human responses to theoretical new advancements, or the consequences thereof.",
+      "Name": "Drama",
+      "Description": "In film and television, drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone.[1] The drama of this kind is usually qualified with additional terms that specify its particular super-genre, macro-genre, or micro-genre,[2] such as soap opera, police crime drama, political drama, legal drama, historical drama, domestic drama, teen drama, and comedy-drama (dramedy). These terms tend to indicate a particular setting or subject matter, or they combine a drama's otherwise serious tone with elements that encourage a broader range of moods. To these ends, a primary element in a drama is the occurrence of conflict—emotional, social, or otherwise—and its resolution in the course of the storyline.",
     },
     "Director": {
       "Name": "Mark Romanek",
@@ -120,8 +120,8 @@ let movies = [
     "Setting": "Northern Ireland, Belfast",
     "Description": "A young boy and his working-class Belfast family experience the tumultuous late 1960s.",
     "Genre": {
-      "Name": "Political drama",
-      "Description": "The political drama subgenre features the intricacies of political power, government institutions, political conflicts, and the individuals involved in the political process. These dramas often explore themes of ambition, corruption, ethical dilemmas, and the impact of political decisions on society and individuals.",
+      "Name": "Drama",
+      "Description": "In film and television, drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone.[1] The drama of this kind is usually qualified with additional terms that specify its particular super-genre, macro-genre, or micro-genre,[2] such as soap opera, police crime drama, political drama, legal drama, historical drama, domestic drama, teen drama, and comedy-drama (dramedy). These terms tend to indicate a particular setting or subject matter, or they combine a drama's otherwise serious tone with elements that encourage a broader range of moods. To these ends, a primary element in a drama is the occurrence of conflict—emotional, social, or otherwise—and its resolution in the course of the storyline.",
     },
     "Director": {
       "Name": "Kenneth Branagh",
@@ -309,5 +309,5 @@ app.use((err, req, res, next) => {
 }); // always  last in a chain of middleware, after all other instances of app.use() and route calls (e.g., after app.get(), app.post(), etc.) but before app.listen()//
 
 app.listen(8080, () => {
-    console.log('Your app is listening on port 8080');
+  console.log('Your app is listening on port 8080.');
 });
