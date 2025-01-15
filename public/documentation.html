@@ -4,6 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>myFlix API</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+    
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+    
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
 </head>
 <body>
     <h1>Movies API</h1>
@@ -71,14 +89,14 @@
 </tr>
 <tr>
     <td> Gets the data about a genre (description) by name (e.g., “Thriller”) </td>
-    <td>/movies/genre/:genreName</td>
+    <td>/movies/movie/genre/:genreName</td>
     <td>GET (Read)</td>
     <td>None</td>
     <td>A JSON object holding the data about a genre by name and its description.</td>
 </tr>
 <tr>
     <td> Gets the data about a director (bio, birth year, death year) by name; </td>
-    <td>/movies/directors/:directorName</td>
+    <td>/movies/movie/directors/:directorName</td>
     <td>GET (Read)</td>
     <td>None</td>
     <td>A JSON object holding the data about a director by name and its description.</td>
