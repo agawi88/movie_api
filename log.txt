@@ -86,3 +86,8 @@ Timestamp: Fri Dec 13 2024 13:28:53 GMT+0100 (Central European Standard Time)
 ::1 - - [15/Jan/2025:10:35:53 +0000] "GET /movies/movie/director/Chris%20Columbus HTTP/1.1" 404 51 "-" "PostmanRuntime/7.43.0"
 ::1 - - [15/Jan/2025:10:36:20 +0000] "GET /movies/movie/directors/Chris%20Columbus HTTP/1.1" 200 592 "-" "PostmanRuntime/7.43.0"
 ::1 - - [15/Jan/2025:10:43:07 +0000] "GET /documentation.html HTTP/1.1" 200 3607 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+::1 - - [17/Jan/2025:17:36:00 +0000] "GET /movies/directors/Chris%20Columbus HTTP/1.1" 500 22 "-" "PostmanRuntime/7.43.0"
+::1 - - [17/Jan/2025:17:38:33 +0000] "GET /movies/directors/Chris%20Columbus HTTP/1.1" 200 592 "-" "PostmanRuntime/7.43.0"
+::1 - - [18/Jan/2025:20:51:44 +0000] "GET /movies/directors/Chris%20Columbus HTTP/1.1" 200 592 "-" "PostmanRuntime/7.43.0"
+::1 - - [18/Jan/2025:20:52:00 +0000] "GET /movies/genre/Thriller HTTP/1.1" 500 22 "-" "PostmanRuntime/7.43.0"
+::1 - - [18/Jan/2025:20:52:47 +0000] "GET /movies/genre/Thriller HTTP/1.1" 200 342 "-" "PostmanRuntime/7.43.0"

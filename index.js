@@ -271,35 +271,54 @@ app.get('/movies/:title', (req, res) => {
       }
 })
 
-//READ, gets the genre of a movie and its description
-
-app.get('/movies/movie/genre/:genreName', (req, res) => {
+app.get('/movies/genre/:genreName', (req, res) => {
   const { genreName } = req.params;
-  const movie = movies.find(movie => movie.Genre.Name === genreName);
-  //const genre = movies.find( movie => movie.Genre.Name === genreName ).Genre; // Due to be discussed in depth at a session with mentor
+  const genre = movies.find( movie => movie.Genre.Name === genreName ).Genre;
 
-  if (movie) { 
-    res.status(200).json(movie.Genre);
-  } else {
-    res.status(400).send('no such genre')
-      }
-})
-
-//READ, gets the director's name
-
-app.get('/movies/movie/directors/:directorName', (req, res) => {
-  const { directorName } = req.params;
-  const movie = movies.find( movie => movie.Director.Name === directorName);
-  //const director = movies.find( movie => movie.Director.Name === directorName ).Director; // Due to be discussed in depth at a session with mentor
-
-  if (movie) {
-    res.status(200).json(movie.Director);
+  if (genre) {
+    res.status(200).json(genre);
   } else {
     res.status(400).send("no such director")
       }
 })
 
 
+//READ, gets the genre of a movie and its description
+
+/* app.get('/movies/movie/genre/:genreName', (req, res) => {
+  const { genreName } = req.params;
+  const movie = movies.find(movie => movie.Genre.Name === genreName);
+
+  if (movie) { 
+    res.status(200).json(movie.Genre);
+  } else {
+    res.status(400).send('no such genre')
+      }
+}) */
+
+//READ, gets the director's name
+
+/* app.get('/movies/movie/directors/:directorName', (req, res) => {
+  const { directorName } = req.params;
+  const movie = movies.find( movie => movie.Director.Name === directorName);
+
+  if (movie) {
+    res.status(200).json(movie.Director);
+  } else {
+    res.status(400).send("no such director")
+      }
+}) */
+
+app.get('/movies/directors/:directorName', (req, res) => {
+  const { directorName } = req.params;
+  const director = movies.find( movie => movie.Director.Name === directorName ).Director; // Due to be discussed in depth at a session with mentor
+
+  if (director) {
+    res.status(200).json(director);
+  } else {
+    res.status(400).send("no such director")
+      }
+})
 
 
 
