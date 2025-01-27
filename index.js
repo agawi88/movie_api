@@ -1,11 +1,15 @@
 const express = require("express"),
     morgan = require("morgan");
-    fs = require('fs'),
-    path = require('path');
-    bodyParser = require('body-parser'),
-    uuid = require('uuid');
+    fs = require("fs"),
+    path = require("path");
+    bodyParser = require("body-parser"),
+    uuid = require("uuid");
+mongoose = require("mongoose");
+Models = require("./models.js");
 
 const app = express();
+const Movies = Models.Movie;
+const Users = Models.User;
 
 app.use(bodyParser.json());
 
@@ -14,7 +18,7 @@ app.use(morgan('common'));
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
 app.use(morgan("combined", {stream: accessLogStream}));
 
-let users = [
+/* let users = [
     {
     id: 1,
     name: "Anna",
@@ -27,9 +31,9 @@ let users = [
     username: "John25",
     favoriteMovies: []
   },
-]
+] */
 
-let movies = [
+/* let movies = [
   {
     "Title": "Harry Potter and the Sorcerer's Stone",
     "Release Year": 2001,
@@ -165,7 +169,7 @@ let movies = [
     "ImageURL": "https://en.wikipedia.org/wiki/File:Outlander-TV_series-2014.jpg#/media/File:Outlander-TV_series-2014.jpg",
     "Featured": false
   },
-];
+]; */
 
 app.get('/', (req, res) => {
     res.send('Welcome to my movie app myFlix!');
@@ -320,7 +324,7 @@ app.get('/movies/directors/:directorName', (req, res) => {
       }
 })
 
-
+mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use((err, req, res, next) => {
     console.log(err.stack);
