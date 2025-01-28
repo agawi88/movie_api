@@ -34,7 +34,7 @@ let userSchema = mongoose.Schema({
     Username: { type: String, required: true },
     Password: { type: String, required: true },
     Email: { type: String, required: true },
-    DateOfBirth: Date,
+    DateOfBirth: { type: Date, required: true },
     FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
 });
 
@@ -70,5 +70,5 @@ let userSchema = mongoose.Schema({
 let Movie = mongoose.model('Movie', movieSchema);
 let User = mongoose.model('User', userSchema);
 
-model.exports.Movie = Movie;
-model.exports.User = User;
+module.exports.Movie = Movie;
+module.exports.User = User;
