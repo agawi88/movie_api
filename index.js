@@ -1,17 +1,19 @@
 const express = require("express"),
-    morgan = require("morgan");
-    fs = require("fs"),
-    path = require("path");
-    bodyParser = require("body-parser"),
-    uuid = require("uuid");
-mongoose = require("mongoose");
-Models = require("./models.js");
+      morgan = require("morgan");
+      fs = require("fs"),
+      path = require("path");
+      bodyParser = require("body-parser"),
+      uuid = require("uuid");
+      mongoose = require("mongoose");
+      Models = require("./models.js");
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 const Movies = Models.Movie;
 const Users = Models.User;
 
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
 
 app.use(morgan('common'));
 
@@ -183,7 +185,42 @@ app.get('/documentation.html', express.static('public'));
 
 //CREATE/POST allows to create a new username, that is: allows users to register
 
-app.post('/users', (req, res) => {
+//Add a user
+/* We’ll expect JSON in this format
+{
+  ID: Integer,
+  Username: String,
+  Password: String,
+  Email: String,
+  Birthday: Date
+}*/
+app.post('/users', async (req, res) => {
+  await Users.findOne({ Username: req.body.Username })
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.Username + 'already exists');
+      } else {
+        Users
+          .create({
+            Username: req.body.Username,
+            Password: req.body.Password,
+            Email: req.body.Email,
+            DateOfBirth: req.body.Birthday
+          })
+          .then((user) =>{res.status(201).json(user) })
+        .catch((error) => {
+          console.error(error);
+          res.status(500).send('Error: ' + error);
+        })
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    });
+});
+
+/* app.post('/users', (req, res) => {
   let newUser = req.body;
 
   if (newUser.name) {
@@ -193,7 +230,7 @@ app.post('/users', (req, res) => {
   } else {
     res.status(400).send("users need names")
   }
-})
+}) */
 
 //UPDATE allows to update their username
 app.put('/users/:id', (req, res) => {
@@ -285,33 +322,6 @@ app.get('/movies/genre/:genreName', (req, res) => {
     res.status(400).send("no such director")
       }
 })
-
-
-//READ, gets the genre of a movie and its description
-
-/* app.get('/movies/movie/genre/:genreName', (req, res) => {
-  const { genreName } = req.params;
-  const movie = movies.find(movie => movie.Genre.Name === genreName);
-
-  if (movie) { 
-    res.status(200).json(movie.Genre);
-  } else {
-    res.status(400).send('no such genre')
-      }
-}) */
-
-//READ, gets the director's name
-
-/* app.get('/movies/movie/directors/:directorName', (req, res) => {
-  const { directorName } = req.params;
-  const movie = movies.find( movie => movie.Director.Name === directorName);
-
-  if (movie) {
-    res.status(200).json(movie.Director);
-  } else {
-    res.status(400).send("no such director")
-      }
-}) */
 
 app.get('/movies/directors/:directorName', (req, res) => {
   const { directorName } = req.params;
