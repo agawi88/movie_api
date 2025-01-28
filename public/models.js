@@ -1,0 +1,74 @@
+const mongoose = require('mongoose');
+
+let movieSchema = mongoose.Schema({
+    Title: { type: String, required: true },
+    ReleaseYear: { type: String, required: true },
+    Setting: {type: String, required: true},
+    Description: { type: String, required: true },
+   // Genres: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Genre' }],  
+    Genres: {
+        Name: String,
+        Description: String
+    },
+
+   // Directors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Director' }],    
+    Director: {
+        Name: String,
+        Bio: String,
+        DateOfBirth: Date,
+        DeathYear: Date,
+    },
+   // Actors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Actor' }],
+       Actors: [{
+        Name: String,
+        Bio: String,
+        DateOfBirth: Date,
+        DeathYear: Date,
+        
+    }],
+    ImageURL: String,
+    Featured: Boolean
+});
+
+let userSchema = mongoose.Schema({
+    Username: { type: String, required: true },
+    Password: { type: String, required: true },
+    Email: { type: String, required: true },
+    DateOfBirth: Date,
+    FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
+});
+
+/* let genreSchema = mongoose.Schema ({
+    Name: {type: String, required: true},
+    Description: {type: String, required: true},
+});
+    
+   let directorSchema = mongoose.Schema ({
+   Name: {type: String, required: true},
+   Bio: {type: String, required: true},
+   DateOfBirth: {type: Date, required: true},
+   DeathYear: {type: Date, required: true},
+   });
+ 
+   let actorSchema = mongoose.Schema ({
+   Name: {type: String, required: true},
+   Bio: {type: String, required: true},
+   DateOfBirth: {type: Date, required: true},
+   DeathYear: {type: Date, required: true},
+   });
+   
+   let Genre = mongoose.model('Genre', genreSchema);
+   let Director = mongoose.model('Director', directorSchema);
+   let Actor = mongoose.model('Actor', actorSchema);
+
+   module.exports.Genre = Genre;
+   module.exports.Director = Director;
+   module.exports.Actor = Actor;
+    
+    */
+
+let Movie = mongoose.model('Movie', movieSchema);
+let User = mongoose.model('User', userSchema);
+
+model.exports.Movie = Movie;
+model.exports.User = User;
