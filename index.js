@@ -33,8 +33,8 @@ app.get('/documentation.html', express.static('public'));
 // Get all users
 app.get('/users', async (req, res) => {
   await Users.find()
-    .then((users) => {
-      res.status(201).json(users);
+    .then((Users) => {
+      res.status(201).json(Users);
     })
     .catch((err) => {
       console.error(err);
@@ -43,18 +43,10 @@ app.get('/users', async (req, res) => {
 });
 
 //Add a user
-/* We’ll expect JSON in this format
-{
-  ID: Integer,
-  Username: String,
-  Password: String,
-  Email: String,
-  Birthday: Date
-}*/
 app.post('/users', async (req, res) => {
   await Users.findOne({ Username: req.body.Username })
-    .then((user) => {
-      if (user) {
+    .then((User) => {
+      if (User) {
         return res.status(400).send(req.body.Username + 'already exists');
       } else {
         Users
@@ -64,7 +56,7 @@ app.post('/users', async (req, res) => {
             Email: req.body.Email,
             DateOfBirth: req.body.DateOfBirth,
           })
-          .then((user) =>{res.status(201).json(user) })
+          .then((User) =>{res.status(201).json(User) })
         .catch((error) => {
           console.error(error);
           res.status(500).send('Error: ' + error);
@@ -102,23 +94,39 @@ app.put('/users/:username', async (req, res) => {
 
   //CREATE/POST allows the user to add a movie to their favorits with just an info that it has been added
 
-  app.post('/users/:id/:movieTitle', (req, res) => {
-    const { id, movieTitle } = req.params;
-
-    let user = users.find(user => user.id == id);
-
-    if (user) {
-      user.favoriteMovies.push(movieTitle);
-      res.status(200).send(req.params.movieTitle + " has been added to user" + req.params.id + "'s array");
-    } else {
-      res.status(400).send("no such user")
-    }
-  })
+app.post('/users/:Username/movies/:movieID', async (req, res) => {
+  await Users.findOneAndUpdate({ Username: req.body.Username },
+    {
+      $push: { FavoriteMovies: req.params.MovieID }
+    },
+    { new: true })
+    .then((updatedUser) => {
+      res.json(updatedUser).send(req.params.MovieID + " has been added to user" + req.params.Username + "'s array");
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err, "no such user!");
+    });
+});
 
   //DELETE allows the user to delete a movie from their favorits with just an info that it has been deleted
 
-  app.delete('/users/:id/:movieTitle', (req, res) => {
-    const { id, movieTitle } = req.params;
+app.delete('/users/:Username/movies/:movieID', async (req, res) => {
+  await Users.findOneAndRemove({ Username: req.body.Username },
+    { new: true })
+    .then((updatedUser) => {
+      if (!User) {
+        res.status(400).send(req.params.Username + ' was not found');
+      } else {
+        res.json(updatedUser).send(req.params.MovieID + " has been deleted to user" + req.params.Username + "'s array");
+      }
+      })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
+   /*  const { id, movieTitle } = req.params;
 
     let user = users.find(user => user.id == id);
 
@@ -127,29 +135,39 @@ app.put('/users/:username', async (req, res) => {
       res.status(200).send(req.params.movieTitle + " has been removed from user" + req.params.id + "'s array");
     } else {
       res.status(400).send("no such user")
-    }
-  })
+    } */
+
 
   //DELETE allows users to be deleted
 
-  app.delete('/users/:id', (req, res) => {
-    const { id } = req.params;
-
-    let user = users.find(user => user.id == id);
-
-    if (user) {
-      users = users.filter(user => user.id != id);
-      res.status(200).send("user" + req.params.id + " has been deleted");
-    } else {
-      res.status(400).send("no such user")
-    }
-  })
+app.delete('/users/:Username', async (req, res) => {
+  await Users.findOneAndRemove({ Username: req.params.Username })
+    .then((User) => {
+      if (!User) {
+        res.status(400).send(req.params.Username + " not found.");
+      } else {
+        res.status(200).send(req.params.Username + " was deleted.");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
+    
 
   //MOVIES
   //Gets the list of ALL movies and their Data in JSON
 
-  app.get('/movies', (req, res) => {
-    res.status(200).json(movies);
+app.get('/movies', async (req, res) => {
+    await Movies.find()
+    .then((Movies) => {
+      res.status(201).json(Movies);
+    })  
+      .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
   })
 
   //Gets the data about a single movie, by name
