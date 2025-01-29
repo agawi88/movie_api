@@ -5,27 +5,17 @@ let movieSchema = mongoose.Schema({
     ReleaseYear: { type: String, required: true },
     Setting: {type: String, required: true},
     Description: { type: String, required: true },
-   // Genres: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Genre' }],  
     Genres: {
         Name: String,
         Description: String
     },
-
-   // Directors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Director' }],    
     Director: {
         Name: String,
         Bio: String,
         DateOfBirth: Date,
         DeathYear: Date,
     },
-   // Actors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Actor' }],
-       Actors: [{
-        Name: String,
-        Bio: String,
-        DateOfBirth: Date,
-        DeathYear: Date,
-        
-    }],
+       Actors: [{type: mongoose.Schema.Types.ObjectId, ref: 'Actor' } ],
     ImageURL: String,
     Featured: Boolean
 });
@@ -37,8 +27,34 @@ let userSchema = mongoose.Schema({
     DateOfBirth: { type: Date, required: true },
     FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
 });
+let Movie = mongoose.model('Movie', movieSchema);
+let User = mongoose.model('User', userSchema);
 
-/* let genreSchema = mongoose.Schema ({
+module.exports.Movie = Movie;
+module.exports.User = User;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  For future use after the end of the course: the Movies_side of the App can be extended and optimized. Either by the use of references below or by switching to a relational DB /SQL.
+
+Genres: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Genre' }], 
+Directors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Director' }],
+Actors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Actor' }], 
+
+let genreSchema = mongoose.Schema ({
     Name: {type: String, required: true},
     Description: {type: String, required: true},
 });
@@ -66,9 +82,3 @@ let userSchema = mongoose.Schema({
    module.exports.Actor = Actor;
     
     */
-
-let Movie = mongoose.model('Movie', movieSchema);
-let User = mongoose.model('User', userSchema);
-
-module.exports.Movie = Movie;
-module.exports.User = User;
