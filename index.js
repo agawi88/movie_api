@@ -9,19 +9,32 @@ const Models = require("./models.js");
 
 const Movies = Models.Movie;
 const Users = Models.User;
-const Genres = Models.Genre;
+const Genres = Models.Movie;
 const Directors = Models.Director;
-
-mongoose.connect("mongodb://localhost:27017/myFlixDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const Titles = Models.Title;
 
 const app = express();
   app.use(express.json());
   app.use(bodyParser.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(morgan('common'));
+
+try {
+var db = mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  dbName: 'myFlixDB'
+});
+      console.log('success connection');
+}
+catch (error) {
+    console.log('Error connection: ' + error);
+}
+
+var mongoose_uri = process.env.MONGOOSE_URI || "mongodb://abc:abc123@localhost:27017/databank?authSource=admin";
+mongoose.set('debug', true);
+mongoose.connect(mongoose_uri);
+
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
 app.use(morgan("combined", {stream: accessLogStream}));
@@ -177,7 +190,7 @@ app.delete('/users/:Username', async (req, res) => {
   //MOVIES
   //Gets the list of ALL movies and their Data in JSON
 
-app.get('/movies', async (req, res) => {
+app.get('/Movies', async (req, res) => {
     await Movies.find()
     .then((Movies) => {
       res.status(201).json(Movies);
@@ -192,7 +205,7 @@ app.get('/movies', async (req, res) => {
 
 app.get('/movies/:title', async (req, res) => {
   await Movies.findOne({ Title: req.params.Title })
-    .ten((Movie) => {
+    .then((Movie) => {
       res.json(Movie);
     })
     .catch((err) => {
@@ -201,29 +214,33 @@ app.get('/movies/:title', async (req, res) => {
     });
 });
 
-  app.get('/movies/genre/:genreName', (req, res) => {
-    const { genreName } = req.params;
-    const genre = movies.find(movie => movie.Genre.Name === genreName).Genre;
+// Gets the Genre by Genre Name
 
-    if (genre) {
-      res.status(200).json(genre);
-    } else {
-      res.status(400).send("no such director")
-    }
-  })
+app.get('/movies/genre/:genreName', (req, res) => {
+  const { genreName } = req.params;
+  const genre = movies.find(movie => movie.Genre.Name === genreName).Genre;
 
-  app.get('/movies/directors/:directorName', (req, res) => {
-    const { directorName } = req.params;
-    const director = movies.find(movie => movie.Director.Name === directorName).Director; // Due to be discussed in depth at a session with mentor
+  if (genre) {
+    res.status(200).json(genre);
+  } else {
+    res.status(400).send("no such director")
+  }
+});
 
-    if (director) {
-      res.status(200).json(director);
-    } else {
-      res.status(400).send("no such director")
-    }
-  })
+// Gets data about the director by name
 
-  mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+app.get('/movies/directors/:directorName', (req, res) => {
+  const { directorName } = req.params;
+  const director = movies.find(movie => movie.Director.Name === directorName).Director; // Due to be discussed in depth at a session with mentor
+
+  if (director) {
+    res.status(200).json(director);
+  } else {
+    res.status(400).send("no such director")
+  }
+});
+
+  // mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
   app.use((err, req, res, next) => {
     console.log(err.stack);

@@ -15,7 +15,7 @@ let movieSchema = mongoose.Schema({
         DateOfBirth: Date,
         DeathYear: Date,
     },
-       Actors: [{type: mongoose.Schema.Types.ObjectId, ref: 'Actor' } ],
+    Actors: [{type: mongoose.Schema.Types.ObjectId, ref: 'Actor' } ],
     ImageURL: String,
     Featured: Boolean
 });
@@ -29,9 +29,17 @@ let userSchema = mongoose.Schema({
 });
 let Movie = mongoose.model('Movie', movieSchema);
 let User = mongoose.model('User', userSchema);
+let Genre = mongoose.model('Genre', movieSchema);
+let Director = mongoose.model('Director', movieSchema);
+let Title = mongoose.model('Title', movieSchema);
+
 
 module.exports.Movie = Movie;
 module.exports.User = User;
+module.exports.Genre = Genre;
+module.exports.Director = Director;
+module.exports.Title = Title
+
 
 
 

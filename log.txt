@@ -121,3 +121,6 @@ Timestamp: Fri Dec 13 2024 13:28:53 GMT+0100 (Central European Standard Time)
 ::1 - - [29/Jan/2025:14:48:03 +0000] "GET /Genres HTTP/1.1" 404 145 "-" "PostmanRuntime/7.43.0"
 ::1 - - [29/Jan/2025:14:48:12 +0000] "GET /Movies HTTP/1.1" 201 2 "-" "PostmanRuntime/7.43.0"
 ::1 - - [29/Jan/2025:14:49:14 +0000] "GET /Movies HTTP/1.1" 201 2 "-" "PostmanRuntime/7.43.0"
+::1 - - [30/Jan/2025:12:01:17 +0000] "GET /Movies HTTP/1.1" 500 81 "-" "PostmanRuntime/7.43.0"
+::1 - - [30/Jan/2025:12:30:35 +0000] "GET /myFlixDB/Movies HTTP/1.1" 404 154 "-" "PostmanRuntime/7.43.0"
+::1 - - [30/Jan/2025:12:31:00 +0000] "GET /Movies HTTP/1.1" 500 81 "-" "PostmanRuntime/7.43.0"
