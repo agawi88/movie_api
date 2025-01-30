@@ -6,6 +6,9 @@ const morgan = require("morgan");
       uuid = require("uuid");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
+const PORT = 27017;
+const url = "mongodb://localhost:27017/myFlixDB";
+const db = mongoose.connection;
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -19,7 +22,7 @@ const app = express();
   app.use(express.urlencoded({ extended: true }));
   app.use(morgan('common'));
 
-try {
+/* try {
 var db = mongoose.connect("mongodb://localhost:27017/myFlixDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -29,11 +32,31 @@ var db = mongoose.connect("mongodb://localhost:27017/myFlixDB", {
 }
 catch (error) {
     console.log('Error connection: ' + error);
-}
+} */
+
+mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  dbName: 'myFlixDB'
+});
+
+// troubleshooting with the following code from: https://stackoverflow.com/questions/56133924/how-to-determine-if-express-apps-connection-to-mongodb-is-really-open
 
 var mongoose_uri = process.env.MONGOOSE_URI || "mongodb://abc:abc123@localhost:27017/databank?authSource=admin";
 mongoose.set('debug', true);
 mongoose.connect(mongoose_uri);
+
+mongoose.connection.on('connected', ()=>{
+  console.log('MongoDB connected at port 27017');
+});
+
+mongoose.connection.once('open', () => {
+  console.log('MongoDB connection now open');
+});
+//MongoDB connection error
+mongoose.connection.on('error', (err) => {
+  console.log(err);
+});
 
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
