@@ -1,21 +1,27 @@
-const express = require("express"),
-      morgan = require("morgan");
+const express = require("express");
+const morgan = require("morgan");
       fs = require("fs"),
       path = require("path");
       bodyParser = require("body-parser"),
       uuid = require("uuid");
-      mongoose = require("mongoose");
-      Models = require("./models.js");
+const mongoose = require("mongoose");
+const Models = require("./models.js");
 
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 const Movies = Models.Movie;
 const Users = Models.User;
+const Genres = Models.Genre;
+const Directors = Models.Director;
 
-//app.use(bodyParser.json());
+mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-app.use(morgan('common'));
+const app = express();
+  app.use(express.json());
+  app.use(bodyParser.json());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(morgan('common'));
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
 app.use(morgan("combined", {stream: accessLogStream}));
@@ -42,9 +48,21 @@ app.get('/users', async (req, res) => {
     });
 });
 
+// Get a user by username
+app.get('/users/:Username', async (req, res) => {
+  await Users.findOne({ Username: req.params.Username })
+    .then((User) => {
+      res.json(user);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
+
 //Add a user
-app.post('/users', async (req, res) => {
-  await Users.findOne({ Username: req.body.Username })
+app.post('/Users', async (req, res) => {
+  await Users.findOneAndUpdate({ Username: req.params.Username })
     .then((User) => {
       if (User) {
         return res.status(400).send(req.body.Username + 'already exists');
@@ -172,16 +190,16 @@ app.get('/movies', async (req, res) => {
 
   //Gets the data about a single movie, by name
 
-  app.get('/movies/:title', (req, res) => {
-    const { title } = req.params;
-    const movie = movies.find(movie => movie.Title === title);
-
-    if (movie) {
-      res.status(200).json(movie);
-    } else {
-      res.status(400).send("no such movie")
-    }
-  })
+app.get('/movies/:title', async (req, res) => {
+  await Movies.findOne({ Title: req.params.Title })
+    .ten((Movie) => {
+      res.json(Movie);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
 
   app.get('/movies/genre/:genreName', (req, res) => {
     const { genreName } = req.params;
