@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('common'));
 
-mongoose.connect("mongodb://localhost:27017/movies", {
+mongoose.connect("mongodb://localhost:27017/mmyFlixDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   //dbName: 'myFlixDB'
@@ -67,7 +67,7 @@ app.get('/secreturl', (req, res) => {
 app.get('/documentation.html', express.static('public'));
 
 // Get all users
-app.get('/users', async (req, res) => {
+app.get('/Users', async (req, res) => {
   await Users.find()
     .then((Users) => {
       res.status(201).json(Users);
@@ -79,7 +79,7 @@ app.get('/users', async (req, res) => {
 });
 
 // Get a user by username
-app.get('/users/:Username', async (req, res) => {
+app.get('/Users/:Username', async (req, res) => {
   await Users.findOne({ Username: req.params.Username })
     .then((User) => {
       res.json(user);
@@ -119,7 +119,7 @@ app.post('/Users', async (req, res) => {
 
 
 //UPDATE allows to update their username
-app.put('/users/:username', async (req, res) => {
+app.put('/Users/:username', async (req, res) => {
   await Users.findOneAndUpdate({ Username: req.body.Username }, {
     $set:
     {
@@ -142,7 +142,7 @@ app.put('/users/:username', async (req, res) => {
 
   //CREATE/POST allows the user to add a movie to their favorits with just an info that it has been added
 
-app.post('/users/:Username/movies/:movieID', async (req, res) => {
+app.post('/Users/:Username/Movies/:movieID', async (req, res) => {
   await Users.findOneAndUpdate({ Username: req.body.Username },
     {
       $push: { FavoriteMovies: req.params.MovieID }
@@ -159,7 +159,7 @@ app.post('/users/:Username/movies/:movieID', async (req, res) => {
 
   //DELETE allows the user to delete a movie from their favorits with just an info that it has been deleted
 
-app.delete('/users/:Username/movies/:movieID', async (req, res) => {
+app.delete('/Users/:Username/Movies/:movieID', async (req, res) => {
   await Users.findOneAndRemove({ Username: req.body.Username },
     { new: true })
     .then((updatedUser) => {
@@ -188,7 +188,7 @@ app.delete('/users/:Username/movies/:movieID', async (req, res) => {
 
   //DELETE allows users to be deleted
 
-app.delete('/users/:Username', async (req, res) => {
+app.delete('/Users/:Username', async (req, res) => {
   await Users.findOneAndRemove({ Username: req.params.Username })
     .then((User) => {
       if (!User) {
@@ -220,7 +220,7 @@ app.get('/Movies', async (req, res) => {
 
   //Gets the data about a single movie, by name
 
-app.get('/movies/:title', async (req, res) => {
+app.get('/Movies/:title', async (req, res) => {
   await Movies.findOne({ Title: req.params.Title })
     .then((Movie) => {
       res.json(Movie);
@@ -233,8 +233,21 @@ app.get('/movies/:title', async (req, res) => {
 
 // Gets the Genre by Genre Name
 
-app.get('/movies/genre/:genreName', (req, res) => {
-  const { genreName } = req.params;
+app.get('/Movies/genre/:genreName', async (req, res) => {
+  await Movies.findOne({ "Genres.Name": req.params.genreName })
+    .then((movie) => {
+      if (movie) {
+        res.status(200).json(movie.Genre);
+      } else {
+        res.status(400).send("No such genre");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
+/*   const { genreName } = req.params;
   const genre = movies.find(movie => movie.Genre.Name === genreName).Genre;
 
   if (genre) {
@@ -242,12 +255,25 @@ app.get('/movies/genre/:genreName', (req, res) => {
   } else {
     res.status(400).send("no such director")
   }
-});
+}); */
 
 // Gets data about the director by name
 
-app.get('/movies/directors/:directorName', (req, res) => {
-  const { directorName } = req.params;
+app.get('/Movies/directors/:directorName', async (req, res) => {
+    await Movies.findOne({ "Directors.Name": req.params.directorName })
+    .then((movie) => {
+      if (movie) {
+        res.status(200).json(movie.Director);
+      } else {
+        res.status(400).send("No such director");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
+/*   const { directorName } = req.params;
   const director = movies.find(movie => movie.Director.Name === directorName).Director; // Due to be discussed in depth at a session with mentor
 
   if (director) {
@@ -255,10 +281,7 @@ app.get('/movies/directors/:directorName', (req, res) => {
   } else {
     res.status(400).send("no such director")
   }
-});
-
-  // mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
-
+}); */
   app.use((err, req, res, next) => {
     console.log(err.stack);
     res.status(500).send('Something went awry...');
