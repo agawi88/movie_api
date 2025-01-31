@@ -1,14 +1,14 @@
 const express = require("express");
 const morgan = require("morgan");
-      fs = require("fs"),
-      path = require("path");
-      bodyParser = require("body-parser"),
-      uuid = require("uuid");
+const fs = require("fs");
+const path = require("path");
+const bodyParser = require("body-parser");
+const uuid = require("uuid");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
 //const PORT = 27017;
-const url = "mongodb://localhost:27017/myFlixDB";
-const db = mongoose.connection;
+//const url = "mongodb://localhost:27017/myFlixDB";
+// const db = mongoose.connection;
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -17,39 +17,31 @@ const Directors = Models.Director;
 const Titles = Models.Title;
 
 const app = express();
-  app.use(express.json());
-  app.use(bodyParser.json());
-  app.use(express.urlencoded({ extended: true }));
-  app.use(morgan('common'));
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(morgan('common'));
 
-/* try {
-var db = mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+mongoose.connect("mongodb://localhost:27017/movies", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  dbName: 'myFlixDB'
-});
-      console.log('success connection');
-}
-catch (error) {
-    console.log('Error connection: ' + error);
-} */
-
-mongoose.connect("mongodb://localhost:27017/myFlixDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  dbName: 'myFlixDB'
+  //dbName: 'myFlixDB'
 });
 
-// troubleshooting with the following code from: https://stackoverflow.com/questions/56133924/how-to-determine-if-express-apps-connection-to-mongodb-is-really-open
+mongoose.connection.once('open', () => {
+  console.log('MongoDB connection now open');
+});
+mongoose.connection.on('error', (err) => {
+  console.log(err);
+});
 
-var mongoose_uri = process.env.MONGOOSE_URI || "mongodb://abc:abc123@localhost:27017/databank?authSource=admin";
-mongoose.set('debug', true);
-mongoose.connect(mongoose_uri);
-
-mongoose.connection.on('connected', ()=>{
+/* mongoose.connection.on('connected', ()=>{
   console.log('MongoDB connected at port 27017');
   app = express();
-});
+}); */
+
+/* const initMongo = () => new Promise(resolve => mongoose.connection.on('connected', resolve));
+const initExpress = () => new Promise(resolve => mongoose.connection.on('connected', resolve));
 
 initMongo()
     .then(initExpress)
@@ -58,20 +50,12 @@ initMongo()
         process.exit(-1)
     })
 
-const initMongo = () => new Promise(resolve => mongoose.connection.on('connected', resolve))
 
-mongoose.connection.once('open', () => {
-  console.log('MongoDB connection now open');
-});
-//MongoDB connection error
-mongoose.connection.on('error', (err) => {
-  console.log(err);
-});
 
-// end of troubleshooting code
+// end of troubleshooting code */
+
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
 app.use(morgan("combined", {stream: accessLogStream}));
-
 app.get('/', (req, res) => {
     res.send('Welcome to my movie app myFlix!');
 });
