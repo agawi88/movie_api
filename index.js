@@ -6,7 +6,7 @@ const morgan = require("morgan");
       uuid = require("uuid");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
-const PORT = 27017;
+//const PORT = 27017;
 const url = "mongodb://localhost:27017/myFlixDB";
 const db = mongoose.connection;
 
@@ -34,7 +34,7 @@ catch (error) {
     console.log('Error connection: ' + error);
 } */
 
-mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+mongoose.connect("mongodb://127.0.0.1:27017/myFlixDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   dbName: 'myFlixDB'
@@ -48,7 +48,17 @@ mongoose.connect(mongoose_uri);
 
 mongoose.connection.on('connected', ()=>{
   console.log('MongoDB connected at port 27017');
+  app = express();
 });
+
+initMongo()
+    .then(initExpress)
+    .catch(e => {
+        error({error:"boot", cause: e})
+        process.exit(-1)
+    })
+
+const initMongo = () => new Promise(resolve => mongoose.connection.on('connected', resolve))
 
 mongoose.connection.once('open', () => {
   console.log('MongoDB connection now open');
@@ -58,7 +68,7 @@ mongoose.connection.on('error', (err) => {
   console.log(err);
 });
 
-
+// end of troubleshooting code
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
 app.use(morgan("combined", {stream: accessLogStream}));
 
@@ -271,5 +281,5 @@ app.get('/movies/directors/:directorName', (req, res) => {
   }); // always  last in a chain of middleware, after all other instances of app.use() and route calls (e.g., after app.get(), app.post(), etc.) but before app.listen()//
 
   app.listen(8080, () => {
-    console.log('Your app is listening on port 8080.');
+    console.log('Your app is listening on port 8080');
   });
