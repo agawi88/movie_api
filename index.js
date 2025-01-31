@@ -119,7 +119,7 @@ app.post('/Users', async (req, res) => {
 
 
 //UPDATE allows to update their username
-app.put('/Users/:username', async (req, res) => {
+app.put('/Users/:Username', async (req, res) => {
   await Users.findOneAndUpdate({ Username: req.body.Username }, {
     $set:
     {
@@ -174,19 +174,6 @@ app.delete('/Users/:Username/Movies/:movieID', async (req, res) => {
       res.status(500).send("Error: " + err);
     });
 });
-   /*  const { id, movieTitle } = req.params;
-
-    let user = users.find(user => user.id == id);
-
-    if (user) {
-      user.favoriteMovies = user.favoriteMovies.filter(title => title !== movieTitle);
-      res.status(200).send(req.params.movieTitle + " has been removed from user" + req.params.id + "'s array");
-    } else {
-      res.status(400).send("no such user")
-    } */
-
-
-  //DELETE allows users to be deleted
 
 app.delete('/Users/:Username', async (req, res) => {
   await Users.findOneAndRemove({ Username: req.params.Username })
@@ -220,7 +207,7 @@ app.get('/Movies', async (req, res) => {
 
   //Gets the data about a single movie, by name
 
-app.get('/Movies/:title', async (req, res) => {
+app.get('/Movies/:Title', async (req, res) => {
   await Movies.findOne({ Title: req.params.Title })
     .then((Movie) => {
       res.json(Movie);
@@ -233,7 +220,7 @@ app.get('/Movies/:title', async (req, res) => {
 
 // Gets the Genre by Genre Name
 
-app.get('/Movies/genre/:genreName', async (req, res) => {
+app.get('/Movies/Genres/:genreName', async (req, res) => {
   await Movies.findOne({ "Genres.Name": req.params.genreName })
     .then((movie) => {
       if (movie) {
