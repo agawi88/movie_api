@@ -265,3 +265,5 @@ Timestamp: Fri Dec 13 2024 13:28:53 GMT+0100 (Central European Standard Time)
 ::1 - - [04/Feb/2025:11:35:04 +0000] "POST /users/john%20doe/movies/679a0c93aeb48c621acb0ce4 HTTP/1.1" Error: Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client 4 "-" "PostmanRuntime/7.43.0"
 ::1 - - [04/Feb/2025:11:36:21 +0000] "POST /users/john%20doe/movies/679a0c93aeb48c621acb0ce4 HTTP/1.1" Error: Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client 4 "-" "PostmanRuntime/7.43.0"
 ::1 - - [04/Feb/2025:12:59:11 +0000] "POST /users/john%20doe/movies/679a0c93aeb48c621acb0ce4 HTTP/1.1" 400 43 "-" "PostmanRuntime/7.43.0"
+::1 - - [04/Feb/2025:13:05:48 +0000] "POST /users/john%20doe/movies/%7B679a0c93aeb48c621acb0ce4%7D HTTP/1.1" 400 43 "-" "PostmanRuntime/7.43.0"
+::1 - - [04/Feb/2025:13:05:50 +0000] "POST /users/john%20doe/movies/%7B679a0c93aeb48c621acb0ce4%7D HTTP/1.1" 400 43 "-" "PostmanRuntime/7.43.0"
