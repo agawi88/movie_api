@@ -20,7 +20,8 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan('common'));
+ // Morgan middleware
+app.use(morgan('combined'));
 
 mongoose.connect("mongodb://localhost:27017/myFlixDB", {
 useNewUrlParser: true,
