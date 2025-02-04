@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const uuid = require("uuid");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
+const validateQueryParams = require('./middleware');
 
 
 const Movies = Models.Movie;
@@ -13,6 +14,7 @@ const Users = Models.User;
 const Genre = Models.Movie;
 const Director = Models.Movie;
 const Title = Models.Movie;
+const FavoriteMovies = Models.FavoriteMovies;
 
 const app = express();
 app.use(express.json());
@@ -97,7 +99,7 @@ app.post('/users', async (req, res) => {
 
 
 //UPDATE allows to update their username
-app.put('/users/:Username', async (req, res) => {
+app.post('/users/:Username', async (req, res) => {
   await Users.findOneAndUpdate({ Username: req.body.Username }, {
     $set:
     {
@@ -120,9 +122,10 @@ app.put('/users/:Username', async (req, res) => {
   
 });
 
-  //CREATE/POST allows the user to add a movie to their favorits with just an info that it has been added
+  //CREATE/POST /*/movies/:movieID */ allows the user to add a movie to their favorits with just an info that it has been added
 
-app.post('/users/:Username/Movies/:movieID', async (req, res) => {
+app.post('/users/:Username/movies/:MovieID', validateQueryParams, async (req, res) => {
+  const { Username, MovieID } = req.params;
   await Users.findOneAndUpdate({ Username: req.body.Username },
     {
       $push: { FavoriteMovies: req.params.MovieID }
@@ -139,8 +142,11 @@ app.post('/users/:Username/Movies/:movieID', async (req, res) => {
 
   //DELETE allows the user to delete a movie from their favorits with just an info that it has been deleted
 
-app.delete('/users/:Username/Movies/:movieID', async (req, res) => {
+app.delete('/users/:Username/movies/:MovieID', validateQueryParams, async (req, res) => {
   await Users.findOneAndRemove({ Username: req.body.Username },
+      {
+      $pull: { FavoriteMovies: req.params.MovieID }
+    },
     { new: true })
     .then((updatedUser) => {
       if (!User) {

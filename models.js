@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 let movieSchema = mongoose.Schema({
     Title: { type: String, required: true },
-    ReleaseYear: { type: String, required: true },
+    ReleaseYear: { type: Number},
     Setting: {type: String, required: true},
     Description: { type: String, required: true },
     Genre: {
@@ -16,9 +16,15 @@ let movieSchema = mongoose.Schema({
         DateOfBirth: Date,
         DeathYear: Date,
     },
-    Actors: [{type: mongoose.Schema.Types.ObjectId, ref: 'Actor' } ],
-    ImageURL: String,
-    Featured: Boolean
+    Actors: [{
+        ActorsId: { type: mongoose.Schema.Types.ObjectId, ref: 'Actor' },
+        Name: { type: String, required: true }
+    }],
+    Image: {
+        ImageUrl: { type: String },
+        ImageAttribution: { type: String }
+    },
+    Featured: { type: Boolean, required: false },
 });
 
 let userSchema = mongoose.Schema({
@@ -26,7 +32,7 @@ let userSchema = mongoose.Schema({
     Password: { type: String, required: true },
     Email: { type: String, required: true },
     DateOfBirth: { type: Date, required: true },
-    FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
+    FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
 });
 
 let genreSchema = mongoose.Schema({
@@ -41,18 +47,23 @@ let directorSchema = mongoose.Schema({
     DeathYear: { type: Date, required: true },
 });
 
+/*let favoriteMoviesSchema = mongoose.Schema(
+    { type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }
+);*/
+
 let Movie = mongoose.model('Movie', movieSchema);
 let User = mongoose.model('User', userSchema);
 let Genre = mongoose.model('Genre', genreSchema);
 let Director = mongoose.model('Director', directorSchema);
 let Title = mongoose.model('Title', movieSchema);
-
+let FavoriteMovies = mongoose.model('FavoriteMovies', userSchema);
 
 module.exports.Movie = Movie;
 module.exports.User = User;
 module.exports.Genre = Genre;
 module.exports.Director = Director;
-module.exports.Title = Title
+module.exports.Title = Title;
+module.exports.FavoriteMovies = FavoriteMovies;
 
 
 
