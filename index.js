@@ -99,7 +99,7 @@ app.post('/users', async (req, res) => {
 
 
 //UPDATE allows to update their username
-app.post('/users/:Username', async (req, res) => {
+app.post('/users/:Username', validateQueryParams, async (req, res) => {
   await Users.findOneAndUpdate({ Username: req.body.Username }, {
     $set:
     {
@@ -149,7 +149,7 @@ app.delete('/users/:Username/movies/:MovieID', validateQueryParams, async (req, 
     },
     { new: true })
     .then((updatedUser) => {
-      if (!User) {
+      if (!user) {
         res.status(400).send(req.params.Username + ' was not found');
       } else {
         res.json(updatedUser).send(req.params.MovieID + " has been deleted to user" + req.params.Username + "'s array");
