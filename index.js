@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const uuid = require("uuid");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
-const validateQueryParams = require('./middleware');
+//const validateQueryParams = require('./middleware');
 
 
 const Movies = Models.Movie;
@@ -100,8 +100,8 @@ app.post('/users', async (req, res) => {
 
 
 //UPDATE allows to update their username
-app.post('/users/:Username', validateQueryParams, async (req, res) => {
-  await Users.findOneAndUpdate({ Username: req.body.Username }, {
+app.put('/users/:Username', async (req, res) => {
+  await Users.findOneAndUpdate({ Username: req.params.Username }, {
     $set:
     {
       Username: req.body.Username,
@@ -121,11 +121,39 @@ app.post('/users/:Username', validateQueryParams, async (req, res) => {
       return;
     })
   
+}); 
+
+  //CREATE/POST allows the user to add a movie to their favorits with just an info that it has been added
+
+app.post('/users/:Username/movies/:MovieID', async (req, res) => {
+  try {
+    const movieId = new mongoose.Types.ObjectId(req.params.MovieID);
+    
+    const updatedUser = await Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      { $addToSet: { FavoriteMovies: movieId } }, // $addToSet vermeidet doppelte Einträge
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).send("User not found");
+    }
+
+    res.json({ 
+      message: `${req.params.MovieID} has been added to ${req.params.Username}'s favorite movies`, 
+      user: updatedUser 
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  }
 });
+
 
   //CREATE/POST /*/movies/:movieID */ allows the user to add a movie to their favorits with just an info that it has been added
 
-app.post('/users/:Username/movies/:MovieID', validateQueryParams, async (req, res) => {
+/* app.post('/users/:Username/movies/:MovieID', validateQueryParams, async (req, res) => {
   const { Username, MovieID } = req.params;
   await Users.findOneAndUpdate({ Username: req.body.Username },
     {
@@ -139,12 +167,48 @@ app.post('/users/:Username/movies/:MovieID', validateQueryParams, async (req, re
       console.error(err);
       res.status(500).send("Error: " + err, "no such user!");
     });
-});
+}); */
 
   //DELETE allows the user to delete a movie from their favorits with just an info that it has been deleted
 
-app.delete('/users/:Username/movies/:MovieID', validateQueryParams, async (req, res) => {
-  await Users.findOneAndRemove({ Username: req.body.Username },
+app.delete('/users/:Username/movies/:MovieID', async (req, res) => {
+  try {
+    // Ensure MovieID is a valid ObjectId
+    const movieId = mongoose.Types.ObjectId.isValid(req.params.MovieID) 
+      ? new mongoose.Types.ObjectId(req.params.MovieID) 
+      : null;
+
+    if (!movieId) {
+      return res.status(400).send("Invalid MovieID format.");
+    }
+
+    // Find and update the user by removing the movie from FavoriteMovies
+    const updatedUser = await Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      { $pull: { FavoriteMovies: movieId } },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).send("User not found.");
+    }
+
+    res.json({ 
+      message: `${req.params.MovieID} has been removed from ${req.params.Username}'s favorite movies.`,
+      user: updatedUser
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  }
+});
+
+
+/* app.put('/users/:Username/movies/:MovieID', async (req, res) =>
+
+{
+  await Users.findOneAndUpdate({ Username: req.params.Username },
       {
       $pull: { FavoriteMovies: req.params.MovieID }
     },
@@ -160,7 +224,7 @@ app.delete('/users/:Username/movies/:MovieID', validateQueryParams, async (req, 
       console.error(err);
       res.status(500).send("Error: " + err);
     });
-});
+}); */
 
 app.delete('/users/:Username', async (req, res) => {
   await Users.findOneAndDelete({ Username: req.params.Username })
