@@ -258,7 +258,7 @@ app.get('/movies', async (req, res) => {
 
   //Gets the data about a single movie, by name
 
-app.get('/Movies/:Title', async (req, res) => {
+app.get('/movies/:Title', async (req, res) => {
   await Movies.findOne({ Title: req.params.Title })
     .then((Movie) => {
       res.json(Movie);

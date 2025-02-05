@@ -38,7 +38,7 @@
 </tr>
 <tr>
     <td>Allows to get a list of all users</td>
-    <td>/Users</td>
+    <td>/users</td>
     <td>GET (Read)</td>
     <td>A JSON object holding data about the user, particularly the user's name that is being registered</td>
     <td>A JSON object holding data about the user, particularly the user's name that has been added. The uuid creates a
@@ -46,7 +46,7 @@
 </tr>
 <tr>
     <td>Allows to get a User by Username</td>
-    <td>/Users/:Username</td>
+    <td>/users/:Username</td>
     <td>GET (Read)</td>
     <td>A JSON object holding data about the user, particularly the user's name that is being registered</td>
     <td>A JSON object holding data about the user, particularly the user's name that has been added. The uuid creates a
@@ -61,7 +61,7 @@
 </tr>
 <tr>
     <td> Allow to update their username</td>
-    <td>/Users/:Username</td>
+    <td>/users/:Username</td>
     <td>PUT (Update)</td>
 <td>A JSON object holding data about the user, containing user's new name that is being updated</td>
 <td>A JSON object holding data about the user, containing user's updated name</td>
@@ -69,7 +69,7 @@
 <tr>
     <td> Allow the user to add a movie to their favorits with just an info that it has been added
 </td>
-    <td>/Users/:Username/Movies/:movieID</td>
+    <td>/users/:Username/movies/:movieID</td>
     <td>POST (Create)</td>
     <td>None</td>
     <td>A text message that a movie has been added.</td>
@@ -90,7 +90,7 @@
 </tr>
 <tr>
     <td> Gets the list of ALL movies and their Data in JSON</td>
-    <td>/Movies</td>
+    <td>/movies</td>
     <td>GET (Read)</td>
     <td>None</td>
     <td>A JSON object holding the data about the movies (description, genre, director, image URL, whether it’s featured or not)</td>
@@ -105,14 +105,14 @@
 </tr>
 <tr>
     <td> Gets the data about a genre (description) by name (e.g., “Thriller”) </td>
-    <td>/Movies/Genres/:genreName</td>
+    <td>/movies/genres/:genreName</td>
     <td>GET (Read)</td>
     <td>None</td>
     <td>A JSON object holding the data about a genre by name and its description.</td>
 </tr>
 <tr>
     <td> Gets the data about a director (bio, birth year, death year) by name; </td>
-    <td>/Movies/Directors/:directorName</td>
+    <td>/movies/directors/:directorName</td>
     <td>GET (Read)</td>
     <td>None</td>
     <td>A JSON object holding the data about a director by name and its description.</td>
