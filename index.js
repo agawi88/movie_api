@@ -20,6 +20,10 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
+
+let auth = require('./auth')(app);
+const passport = require('passport');
+require('./passport');
  // Morgan middleware
 app.use(morgan('combined'));
 
@@ -245,7 +249,7 @@ app.delete('/users/:Username', async (req, res) => {
   //MOVIES
   //Gets the list of ALL movies and their Data in JSON
 
-app.get('/movies', async (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false}), async (req, res) => {
     await Movies.find()
     .then((Movies) => {
       return res.status(201).json(Movies);
