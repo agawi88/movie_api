@@ -34,35 +34,11 @@ let userSchema = mongoose.Schema({
     FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
 });
 
-let genreSchema = mongoose.Schema({
-    Name: { type: String, required: true },
-    Description: { type: String, required: true },
-});
-
-let directorSchema = mongoose.Schema({
-    Name: { type: String, required: true },
-    Bio: { type: String, required: true },
-    DateOfBirth: { type: Date, required: true },
-    DeathYear: { type: Date, required: true },
-});
-
-/*let favoriteMoviesSchema = mongoose.Schema(
-    { type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }
-);*/
-
 let Movie = mongoose.model('Movie', movieSchema);
 let User = mongoose.model('User', userSchema);
-let Genre = mongoose.model('Genre', genreSchema);
-let Director = mongoose.model('Director', directorSchema);
-let Title = mongoose.model('Title', movieSchema);
-let FavoriteMovies = mongoose.model('FavoriteMovies', userSchema);
 
 module.exports.Movie = Movie;
 module.exports.User = User;
-module.exports.Genre = Genre;
-module.exports.Director = Director;
-module.exports.Title = Title;
-module.exports.FavoriteMovies = FavoriteMovies;
 
 
 
