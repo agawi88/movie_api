@@ -3,18 +3,12 @@ const morgan = require("morgan");
 const fs = require("fs");
 const path = require("path");
 const bodyParser = require("body-parser");
-const uuid = require("uuid");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
-//const validateQueryParams = require('./middleware');
 
 
 const Movies = Models.Movie;
 const Users = Models.User;
-const Genre = Models.Movie;
-const Director = Models.Movie;
-const Title = Models.Movie;
-const FavoriteMovies = Models.FavoriteMovies;
 
 const app = express();
 app.use(express.json());
@@ -52,7 +46,7 @@ app.get('/secreturl', (req, res) => {
 app.get('/documentation.html', express.static('public'));
 
 // Get all users
-app.get('/users', async (req, res) => {
+app.get('/users', passport.authenticate('jwt', { session: false}), async (req, res) => {
   await Users.find()
     .then((users) => {
       res.status(201).json(users);
@@ -64,7 +58,7 @@ app.get('/users', async (req, res) => {
 });
 
 // Get a user by username
-app.get('/Users/:Username', async (req, res) => {
+app.get('/Users/:Username', passport.authenticate('jwt', { session: false}), async (req, res) => {
   await Users.findOne({ Username: req.params.Username })
     .then((user) => {
       res.json(user);
@@ -129,37 +123,8 @@ app.put('/users/:Username', async (req, res) => {
 
   //CREATE/POST allows the user to add a movie to their favorits with just an info that it has been added
 
-app.post('/users/:Username/movies/:MovieID', async (req, res) => {
-  try {
-    const movieId = new mongoose.Types.ObjectId(req.params.MovieID);
-    
-    const updatedUser = await Users.findOneAndUpdate(
-      { Username: req.params.Username },
-      { $addToSet: { FavoriteMovies: movieId } }, // $addToSet vermeidet doppelte Einträge
-      { new: true }
-    );
-
-    if (!updatedUser) {
-      return res.status(404).send("User not found");
-    }
-
-    res.json({ 
-      message: `${req.params.MovieID} has been added to ${req.params.Username}'s favorite movies`, 
-      user: updatedUser 
-    });
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error: " + err);
-  }
-});
-
-
-  //CREATE/POST /*/movies/:movieID */ allows the user to add a movie to their favorits with just an info that it has been added
-
-/* app.post('/users/:Username/movies/:MovieID', validateQueryParams, async (req, res) => {
-  const { Username, MovieID } = req.params;
-  await Users.findOneAndUpdate({ Username: req.body.Username },
+ app.post('/users/:Username/movies/:MovieID', async (req, res) => {
+  await Users.findOneAndUpdate({ Username: req.params.Username },
     {
       $push: { FavoriteMovies: req.params.MovieID }
     },
@@ -171,46 +136,12 @@ app.post('/users/:Username/movies/:MovieID', async (req, res) => {
       console.error(err);
       res.status(500).send("Error: " + err, "no such user!");
     });
-}); */
+}); 
 
   //DELETE allows the user to delete a movie from their favorits with just an info that it has been deleted
 
-app.delete('/users/:Username/movies/:MovieID', async (req, res) => {
-  try {
-    // Ensure MovieID is a valid ObjectId
-    const movieId = mongoose.Types.ObjectId.isValid(req.params.MovieID) 
-      ? new mongoose.Types.ObjectId(req.params.MovieID) 
-      : null;
 
-    if (!movieId) {
-      return res.status(400).send("Invalid MovieID format.");
-    }
-
-    // Find and update the user by removing the movie from FavoriteMovies
-    const updatedUser = await Users.findOneAndUpdate(
-      { Username: req.params.Username },
-      { $pull: { FavoriteMovies: movieId } },
-      { new: true }
-    );
-
-    if (!updatedUser) {
-      return res.status(404).send("User not found.");
-    }
-
-    res.json({ 
-      message: `${req.params.MovieID} has been removed from ${req.params.Username}'s favorite movies.`,
-      user: updatedUser
-    });
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error: " + err);
-  }
-});
-
-
-/* app.put('/users/:Username/movies/:MovieID', async (req, res) =>
-
+app.put('/users/:Username/movies/:MovieID', async (req, res) =>
 {
   await Users.findOneAndUpdate({ Username: req.params.Username },
       {
@@ -218,7 +149,7 @@ app.delete('/users/:Username/movies/:MovieID', async (req, res) => {
     },
     { new: true })
     .then((updatedUser) => {
-      if (!user) {
+      if (!updatedUser) {
         res.status(400).send(req.params.Username + ' was not found');
       } else {
         res.json(updatedUser).send(req.params.MovieID + " has been deleted to user" + req.params.Username + "'s array");
@@ -228,7 +159,7 @@ app.delete('/users/:Username/movies/:MovieID', async (req, res) => {
       console.error(err);
       res.status(500).send("Error: " + err);
     });
-}); */
+}); 
 
 app.delete('/users/:Username', async (req, res) => {
   await Users.findOneAndDelete({ Username: req.params.Username })
@@ -249,7 +180,7 @@ app.delete('/users/:Username', async (req, res) => {
   //MOVIES
   //Gets the list of ALL movies and their Data in JSON
 
-app.get('/movies', passport.authenticate('jwt', { session: false}), async (req, res) => {
+app.get('/movies', async (req, res) => {
     await Movies.find()
     .then((Movies) => {
       return res.status(201).json(Movies);
@@ -281,7 +212,7 @@ app.get('/movies/genre/:genreName', async (req, res) => {
       if (movie) {
         res.status(200).json(movie.Genre);
       } else {
-        res.status(400).send("No such genre");
+        res.status(404).send("No such genre");
       }
     })
     .catch((err) => {
@@ -292,7 +223,7 @@ app.get('/movies/genre/:genreName', async (req, res) => {
 
 // Gets data about the director by name
 
-app.get('/movies/director/:directorName', async (req, res) => {
+app.get("/movies/director/:directorName", async (req, res) => {
     await Movies.findOne({ "Director.Name": req.params.directorName })
     .then((movie) => {
       if (movie) {
@@ -305,7 +236,7 @@ app.get('/movies/director/:directorName', async (req, res) => {
       console.error(err);
       res.status(500).send("Error: " + err);
     });
-});
+}); 
 
   app.use((err, req, res, next) => {
     console.log(err.stack);
