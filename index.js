@@ -70,7 +70,7 @@ app.get('/Users/:Username', passport.authenticate('jwt', { session: false}), asy
 });
 
 //Add a user
-app.post('/users', async (req, res) => {
+app.post('/users', passport.authenticate('jwt', { session: false}), async (req, res) => {
   await Users.findOne({ Username: req.params.Username })
     .then((user) => {
       if (user) {
@@ -98,7 +98,7 @@ app.post('/users', async (req, res) => {
 
 
 //UPDATE allows to update their username
-app.put('/users/:Username', async (req, res) => {
+app.put('/users/:Username', passport.authenticate('jwt', { session: false}), async (req, res) => {
   await Users.findOneAndUpdate({ Username: req.params.Username }, {
     $set:
     {
@@ -123,7 +123,7 @@ app.put('/users/:Username', async (req, res) => {
 
   //CREATE/POST allows the user to add a movie to their favorits with just an info that it has been added
 
- app.post('/users/:Username/movies/:MovieID', async (req, res) => {
+ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false}), async (req, res) => {
   await Users.findOneAndUpdate({ Username: req.params.Username },
     {
       $push: { FavoriteMovies: req.params.MovieID }
@@ -140,8 +140,7 @@ app.put('/users/:Username', async (req, res) => {
 
   //DELETE allows the user to delete a movie from their favorits with just an info that it has been deleted
 
-
-app.put('/users/:Username/movies/:MovieID', async (req, res) =>
+app.put('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false}), async (req, res) =>
 {
   await Users.findOneAndUpdate({ Username: req.params.Username },
       {
@@ -161,7 +160,7 @@ app.put('/users/:Username/movies/:MovieID', async (req, res) =>
     });
 }); 
 
-app.delete('/users/:Username', async (req, res) => {
+app.delete('/users/:Username', passport.authenticate('jwt', { session: false}), async (req, res) => {
   await Users.findOneAndDelete({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
