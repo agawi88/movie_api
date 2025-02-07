@@ -10,7 +10,7 @@ let Users = Models.User,
 passport.use(
     new LocalStrategy(
         {
-            usernameFiels: 'Username',
+            usernameField: 'Username',
             passwordField: 'Password',
         },
         async (username, password, callback) => {
@@ -48,4 +48,4 @@ passport.use(new JWTStrategy({
         .catch((error) => {
             return callback(error)
         });
-}));
+})); 
