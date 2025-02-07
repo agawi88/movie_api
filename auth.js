@@ -4,15 +4,15 @@ const jwt = require('jsonwebtoken'),
     passport = require('passport');
 
 require('./passport');
+Models = require('./models.js');
 
 let generateJWTToken = (user) => {
     return jwt.sign(user, jwtSecret, {
         subject: user.Username,
-        expireIn: '7d',
+        expiresIn: '7d',
         algorithm: 'HS256'
     });
 }
-
 // POST login.
 
 module.exports = (router) => {
