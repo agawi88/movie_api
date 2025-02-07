@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
-let auth = require('./auth')(app);
+auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
  // Morgan middleware
@@ -69,8 +69,8 @@ app.get('/Users/:Username', passport.authenticate('jwt', { session: false}), asy
     });
 });
 
-//Add a user
-app.post('/users', passport.authenticate('jwt', { session: false}), async (req, res) => {
+//Add a user (cannot have passport-authentication in order to allow users to register)
+app.post('/users', async (req, res) => {
   await Users.findOne({ Username: req.params.Username })
     .then((user) => {
       if (user) {
@@ -99,6 +99,13 @@ app.post('/users', passport.authenticate('jwt', { session: false}), async (req, 
 
 //UPDATE allows to update their username
 app.put('/users/:Username', passport.authenticate('jwt', { session: false}), async (req, res) => {
+  
+  // CONDITION TO CHECK ADDED HERE
+  if (req.user.Username !== req.params.Username) {
+    return res.status(400).send("Permission denied");
+  }
+  // CONDITION ENDS
+  
   await Users.findOneAndUpdate({ Username: req.params.Username }, {
     $set:
     {
@@ -179,7 +186,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false}), 
   //MOVIES
   //Gets the list of ALL movies and their Data in JSON
 
-app.get('/movies', async (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false}), async (req, res) => {
     await Movies.find()
     .then((Movies) => {
       return res.status(201).json(Movies);
@@ -192,7 +199,7 @@ app.get('/movies', async (req, res) => {
 
   //Gets the data about a single movie, by name
 
-app.get('/movies/:Title', async (req, res) => {
+app.get('/movies/:Title', passport.authenticate('jwt', { session: false}), async (req, res) => {
   await Movies.findOne({ Title: req.params.Title })
     .then((Movie) => {
       res.json(Movie);
@@ -205,7 +212,7 @@ app.get('/movies/:Title', async (req, res) => {
 
 // Gets the Genre by Genre Name
 
-app.get('/movies/genre/:genreName', async (req, res) => {
+app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: false}), async (req, res) => {
   await Movies.findOne({ "Genre.Name": req.params.genreName })
     .then((movie) => {
       if (movie) {
@@ -222,7 +229,7 @@ app.get('/movies/genre/:genreName', async (req, res) => {
 
 // Gets data about the director by name
 
-app.get("/movies/director/:directorName", async (req, res) => {
+app.get("/movies/director/:directorName", passport.authenticate('jwt', { session: false}), async (req, res) => {
     await Movies.findOne({ "Director.Name": req.params.directorName })
     .then((movie) => {
       if (movie) {
