@@ -6,9 +6,22 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
 
-
 const Movies = Models.Movie;
 const Users = Models.User;
+
+const cors = require('cors');
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+      let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+      return callback(new Error(message ), false);
+    }
+    return callback(null, true);
+  }
+}));
 
 const app = express();
 app.use(express.json());
@@ -20,6 +33,9 @@ const passport = require('passport');
 require('./passport');
  // Morgan middleware
 app.use(morgan('combined'));
+
+const { check, validationResult } = require('express-validator');
+
 
 mongoose.connect("mongodb://localhost:27017/myFlixDB", {
 useNewUrlParser: true,
@@ -46,7 +62,7 @@ app.get('/secreturl', (req, res) => {
 app.get('/documentation.html', express.static('public'));
 
 // Get all users
-app.get('/users', passport.authenticate('jwt', { session: false}), async (req, res) => {
+app.get('/users', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.find()
     .then((users) => {
       res.status(201).json(users);
@@ -70,7 +86,26 @@ app.get('/Users/:Username', passport.authenticate('jwt', { session: false}), asy
 });
 
 //Add a user (cannot have passport-authentication in order to allow users to register)
-app.post('/users', async (req, res) => {
+app.post('/users',
+  // Validation logic here for request
+  //you can either use a chain of methods like .not().isEmpty()
+  //which means "opposite of isEmpty" in plain english "is not empty"
+  //or use .isLength({min: 5}) which means
+  //minimum value of 5 characters are only allowed
+  [
+    check('Username', 'Username is required').isLength({min: 5}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
+  ],
+  async (req, res) => {
+ // check the validation object for errors
+    let errors = validationResult(req);
+        if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+  let hashedPassword = Users.hashPassword(req.body.Password);
   await Users.findOne({ Username: req.params.Username })
     .then((user) => {
       if (user) {
@@ -79,7 +114,7 @@ app.post('/users', async (req, res) => {
         Users
           .create({
             Username: req.body.Username,
-            Password: req.body.Password,
+            Password: hashedPassword,
             Email: req.body.Email,
             DateOfBirth: req.body.DateOfBirth,
           })
@@ -249,6 +284,8 @@ app.get("/movies/director/:directorName", passport.authenticate('jwt', { session
     res.status(500).send('Something went awry...');
   }); // always  last in a chain of middleware, after all other instances of app.use() and route calls (e.g., after app.get(), app.post(), etc.) but before app.listen()//
 
-  app.listen(8080, () => {
-    console.log('Your app is listening on port 8080');
+  
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+    console.log('Listening on Port');
   });
