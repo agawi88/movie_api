@@ -288,7 +288,7 @@ app.get("/movies/director/:directorName", passport.authenticate('jwt', { session
   }); // always  last in a chain of middleware, after all other instances of app.use() and route calls (e.g., after app.get(), app.post(), etc.) but before app.listen()//
 
   
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || '8080';
 app.listen(port, '0.0.0.0',() => {
     console.log('Listening on Port');
   });
