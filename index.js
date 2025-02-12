@@ -52,8 +52,9 @@ mongoose.connection.on('error', (err) => {
 });
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
-app.use(morgan("combined", {stream: accessLogStream}));
-app.get('/', (req, res) => {
+app.use(morgan("combined", { stream: accessLogStream }));
+
+app.get('/',(req, res) => {
     res.send('Welcome to my movie app myFlix!');
 });
 
