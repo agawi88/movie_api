@@ -2,7 +2,8 @@
   "name": "movie_api",
   "version": "1.0.0",
    "engines": {
-    "node": "22.11.0"},
+    "node": "22.11.0",
+    "npm": "11.1.0"},
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -16,7 +17,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "��#\u0000 \u0000m\u0000y\u0000F\u0000l\u0000i\u0000x\u0000_\u0000A\u0000P\u0000I\u0000\r\u0000 \u0000#\u0000 \u0000m\u0000o\u0000v\u0000i\u0000e\u0000_\u0000a\u0000p\u0000i\u0000\r\u0000 \u0000#\u0000 \u0000m\u0000o\u0000v\u0000i\u0000e\u0000_\u0000a\u0000p\u0000i\u0000\r\u0000 \u0000",
+  "description": "An App with Movies all around Britain, British actors, directors, setting, etc.",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
