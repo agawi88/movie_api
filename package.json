@@ -2,7 +2,7 @@
   "name": "movie_api",
   "version": "1.0.0",
    "engines": {
-    "node": "22.11.0",
+    "node": "12",
     "npm": "11.1.0"},
   "main": "index.js",
   "scripts": {
