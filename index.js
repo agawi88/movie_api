@@ -5,6 +5,8 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Models = require("./models.js");
+bcryptjs = require('bcryptjs');
+
 
 const Movies = Models.Movie;
 const Users = Models.User;
