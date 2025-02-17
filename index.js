@@ -4,12 +4,12 @@ const fs = require("fs");
 const path = require("path");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const Models = require("./models.js");
+const models = require("./models.js");
 bcryptjs = require('bcryptjs');
 
 
-const Movies = Models.Movie;
-const Users = Models.User;
+const Movies = models.Movie;
+const Users = models.User;
 
 const cors = require('cors');
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
