@@ -1,9 +1,10 @@
 {
   "name": "movie_api",
   "version": "1.0.0",
-   "engines": {
+  "engines": {
     "node": "12",
-    "npm": "11.1.0"},
+    "npm": "11.1.0"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" ",
@@ -26,6 +27,7 @@
     "mkdirp": "^1.0.4",
     "mongoose": "^8.9.5",
     "morgan": "^1.10.0",
+    "path": "^0.12.7",
     "uuid": "^11.0.5"
   },
   "devDependencies": {
