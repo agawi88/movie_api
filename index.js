@@ -291,5 +291,5 @@ app.get("/movies/director/:directorName", passport.authenticate('jwt', { session
   
 const port = process.env.PORT || '8080';
 app.listen(port, '0.0.0.0',() => {
-    console.log('Listening on Port');
+    console.log('Listening on Port' + port);
   });
