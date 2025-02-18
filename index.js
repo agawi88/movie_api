@@ -11,6 +11,11 @@ bcryptjs = require('bcryptjs');
 const Movies = models.Movie;
 const Users = models.User;
 
+const app = express();
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+
 const cors = require('cors');
 app.use(cors());
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
@@ -25,11 +30,6 @@ app.use(cors({
     return callback(null, true);
   }
 }));
-
-const app = express();
-app.use(express.json());
-app.use(bodyParser.json());
-app.use(express.urlencoded({ extended: true }));
 
 auth = require('./auth')(app);
 const passport = require('passport');
