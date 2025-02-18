@@ -40,7 +40,7 @@ app.use(morgan('combined'));
 
 const { check, validationResult } = require('express-validator');
 
-mongoose.connect(process.env.CONNECTION_URI, {
+mongoose.connect("process.env.CONNECTION_URI", {
 //mongoose.connect("mongodb://localhost:27017/myFlixDB", {
 useNewUrlParser: true,
 useUnifiedTopology: true,
