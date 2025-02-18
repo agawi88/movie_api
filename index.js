@@ -32,6 +32,7 @@ app.use(cors({
 }));
 
 auth = require('./auth')(app);
+
 const passport = require('passport');
 require('./passport');
  // Morgan middleware
@@ -101,8 +102,7 @@ app.post('/users',
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail()
-  ],
-  async (req, res) => {
+  ], async (req, res) => {
  // check the validation object for errors
     let errors = validationResult(req);
         if (!errors.isEmpty()) {
