@@ -41,7 +41,7 @@ app.use(morgan('combined'));
 const { check, validationResult } = require('express-validator');
 
 //mongoose.connect("mongodb://localhost:27017/myFlixDB", {
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.createConnection(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connection.once('open', () => {
   console.log('MongoDB connection now open');
