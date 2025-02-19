@@ -40,10 +40,8 @@ app.use(morgan('combined'));
 
 const { check, validationResult } = require('express-validator');
 
-//mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
 // mongoose.connect("mongodb://localhost:27017/myFlixDB", { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect('mongodb+srv://agawi88:nowodworska88@myfirstcluster.8yssv.mongodb.net/myFlixDB?retryWrites=true&w=majority&appName=MyFirstCluster', { useNewUrlParser: true, useUnifiedTopology: true});
-
 
 mongoose.connection.once('open', () => {
   console.log('MongoDB connection now open');
