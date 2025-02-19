@@ -1,0 +1,5 @@
+{"_id":{"$oid":"67911cf1ca619fc513cb0cef"},"Username":"jane smith","Password":"password345","Email":"jane.smith@example.com","DateOfBirth":"1985-11-22","FavoriteMovies":" "}
+{"_id":{"$oid":"67911d3dca619fc513cb0cf0"},"Username":"john doe","Password":"password123","Email":"john.doe@example.com","DateOfBirth":"1990-05-15","FavoriteMovies":" "}
+{"_id":{"$oid":"67911d77ca619fc513cb0cf1"},"Username":"emily brown","Password":"password789","Email":"emily.brown@example.com","DateOfBirth":"1994-08-30","FavoriteMovies":"ObjectId('67917e6943a72f5e1ccb0ce7')"}
+{"_id":{"$oid":"67911dbfca619fc513cb0cf2"},"Username":"david williams","Password":"password101","Email":"david.williams@example.com","DateOfBirth":"1988-12-05","FavoriteMovies":" "}
+{"_id":{"$oid":"67911debca619fc513cb0cf4"},"Username":"michael jones","Password":"password202","Email":"mi.jo@example.com","DateOfBirth":"1992-02-10","FavoriteMovies":"ObjectId('67917810ca619fc513cb0cff')"}
