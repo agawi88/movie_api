@@ -6,6 +6,9 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const models = require("./models.js");
 bcryptjs = require('bcryptjs');
+const dotenv = require('dotenv');
+const cors = require('cors');
+dotenv.config();
 
 
 const Movies = models.Movie;
@@ -16,7 +19,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
-const cors = require('cors');
+
 app.use(cors());
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 
@@ -40,7 +43,7 @@ app.use(morgan('combined'));
 
 const { check, validationResult } = require('express-validator');
 
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 // mongoose.connect("mongodb://localhost:27017/myFlixDB", { useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connection.once('open', () => {
