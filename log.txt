@@ -330,3 +330,6 @@ Timestamp: Fri Dec 13 2024 13:28:53 GMT+0100 (Central European Standard Time)
 ::1 - - [07/Feb/2025:23:14:27 +0000] "PUT /users/jane%20austen/movies/679a0c93aeb48c621acb0ce4 HTTP/1.1" 401 - "-" "PostmanRuntime/7.43.0"
 ::1 - - [07/Feb/2025:23:18:46 +0000] "POST /users/jane%20austen?Username=jane%20austen&Password=janespassword HTTP/1.1" 404 159 "-" "PostmanRuntime/7.43.0"
 ::1 - - [07/Feb/2025:23:19:02 +0000] "POST /login/jane%20austen?Username=jane%20austen&Password=janespassword HTTP/1.1" 404 159 "-" "PostmanRuntime/7.43.0"
+127.0.0.1 - - [20/Feb/2025:15:10:31 +0000] "POST /users HTTP/1.1" 422 109 "-" "PostmanRuntime/7.43.0"
+127.0.0.1 - - [20/Feb/2025:15:11:04 +0000] "POST /users HTTP/1.1" 422 109 "-" "PostmanRuntime/7.43.0"
+127.0.0.1 - - [20/Feb/2025:15:12:29 +0000] "POST /users HTTP/1.1" 201 220 "-" "PostmanRuntime/7.43.0"

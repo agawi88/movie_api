@@ -15,6 +15,8 @@ dotenv.config();
 const Movies = models.Movie;
 const Users = models.User;
 
+// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connection.once('open', () => {
@@ -94,7 +96,7 @@ app.get('/Users/:Username', passport.authenticate('jwt', { session: false }), as
 
 // Add a user (cannot have passport-authentication in order to allow users to register)
 app.post('/users', [
-  check('Username', 'Username is required').isLength({ min: 5 }),
+ // check('Username', 'Username is required').isLength({ min: 5 }),
   check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
   check('Password', 'Password is required').not().isEmpty(),
   check('Email', 'Email does not appear to be valid').isEmail()
