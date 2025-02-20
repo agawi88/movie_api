@@ -2,22 +2,47 @@ const express = require("express");
 const morgan = require("morgan");
 const fs = require("fs");
 const path = require("path");
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
+
+const { check, validationResult } = require('express-validator');
 const mongoose = require("mongoose");
 const models = require("./models.js");
-bcryptjs = require('bcryptjs');
-
 
 const Movies = models.Movie;
 const Users = models.User;
 
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
+// mongoose.connect("mongodb://localhost:27017/myFlixDB", { useNewUrlParser: true, useUnifiedTopology: true });
+
+mongoose.connection.once('open', () => {
+  console.log('MongoDB connection now open');
+});
+mongoose.connection.on('error', (err) => {
+  console.log(err);
+});
+
+bcryptjs = require('bcryptjs');
+
 const app = express();
+
 app.use(express.json());
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
 const cors = require('cors');
 app.use(cors());
+
+let auth = require('./auth')(app);
+
+const passport = require('passport');
+require('./passport');
+
+ // Morgan middleware
+app.use(morgan('combined'));
+
+// Static request
+app.use(express.static('public'));
+
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 
 app.use(cors({
@@ -31,24 +56,8 @@ app.use(cors({
   }
 }));
 
-auth = require('./auth')(app);
-
-const passport = require('passport');
-require('./passport');
- // Morgan middleware
-app.use(morgan('combined'));
-
-const { check, validationResult } = require('express-validator');
-
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
-// mongoose.connect("mongodb://localhost:27017/myFlixDB", { useNewUrlParser: true, useUnifiedTopology: true });
-
-mongoose.connection.once('open', () => {
-  console.log('MongoDB connection now open');
-});
-mongoose.connection.on('error', (err) => {
-  console.log(err);
-});
+// do I need this code here?
+// GENERAL 
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
 app.use(morgan("combined", { stream: accessLogStream }));
@@ -61,7 +70,9 @@ app.get('/secreturl', (req, res) => {
     res.send('This is a secret url with super top-secret content.')
 });
 
-app.get('/documentation.html', express.static('public'));
+app.get('/documentation.html');
+
+// USERS
 
 // Get all users
 app.get('/users', passport.authenticate('jwt', { session: false }), async (req, res) => {
@@ -136,7 +147,7 @@ app.post('/users',
 //UPDATE allows to update their username
 app.put('/users/:Username', passport.authenticate('jwt', { session: false}), async (req, res) => {
   
-  // CONDITION TO CHECK ADDED HERE
+  // CONDITION TO CHECK 
   if (req.user.Username !== req.params.Username) {
     return res.status(400).send("Permission denied");
   }
@@ -220,6 +231,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false}), 
     
 
   //MOVIES
+
   //Gets the list of ALL movies and their Data in JSON
 
 app.get('/movies', passport.authenticate('jwt', { session: false}), async (req, res) => {
