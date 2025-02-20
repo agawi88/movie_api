@@ -7,6 +7,14 @@ const path = require("path");
 const { check, validationResult } = require('express-validator');
 const mongoose = require("mongoose");
 const models = require("./models.js");
+<<<<<<< HEAD
+bcryptjs = require('bcryptjs');
+const dotenv = require('dotenv');
+const cors = require('cors');
+dotenv.config();
+
+=======
+>>>>>>> 1d3b35c39d130736cafe128a5cf3e0f4e57a8087
 
 const Movies = models.Movie;
 const Users = models.User;
@@ -29,7 +37,7 @@ app.use(express.json());
 // app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
-const cors = require('cors');
+
 app.use(cors());
 
 let auth = require('./auth')(app);
@@ -56,8 +64,29 @@ app.use(cors({
   }
 }));
 
+<<<<<<< HEAD
+auth = require('./auth')(app);
+
+const passport = require('passport');
+require('./passport');
+ // Morgan middleware
+app.use(morgan('combined'));
+
+const { check, validationResult } = require('express-validator');
+
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect("mongodb://localhost:27017/myFlixDB", { useNewUrlParser: true, useUnifiedTopology: true });
+
+mongoose.connection.once('open', () => {
+  console.log('MongoDB connection now open');
+});
+mongoose.connection.on('error', (err) => {
+  console.log(err);
+});
+=======
 // do I need this code here?
 // GENERAL 
+>>>>>>> 1d3b35c39d130736cafe128a5cf3e0f4e57a8087
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
 app.use(morgan("combined", { stream: accessLogStream }));
