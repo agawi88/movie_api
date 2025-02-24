@@ -286,7 +286,7 @@ app.get("/movies/Genre/:genreName", /*passport.authenticate('jwt', { session: fa
   await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
     .then((movie) => {
       if (movie) {
-        res.status(200).json(movie.genre);
+        res.status(200).json(movie.Genre);
       } else {
         res.status(400).send("No such genre.");
       }
@@ -302,7 +302,7 @@ app.get("/movies/Director/:directorName", /*passport.authenticate('jwt', { sessi
   await Movies.find({ "Director.Name": { $regex: new RegExp(req.params.directorName, "i") } })
     .then((movie) => {
       if (movie) {
-        res.status(200).json(movie.director);
+        res.status(200).json(movie.Director);
       } else {
         res.status(400).send("No such director.");
       }
