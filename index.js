@@ -71,7 +71,7 @@ app.get('/documentation.html');
 // USERS
 
 // Get all users
-app.get('/users', /* passport.authenticate('jwt', { session: false }), */ async (req, res) => {
+app.get('/users', passport.authenticate('jwt', { session: false }),  async (req, res) => {
   await Users.find()
     .then((users) => {
       res.status(201).json(users);
@@ -83,7 +83,7 @@ app.get('/users', /* passport.authenticate('jwt', { session: false }), */ async 
 });
 
 // Get a user by username
-app.get('/Users/:Username', /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
+app.get('/Users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.findOne({ Username: req.params.Username })
     .then((user) => {
       res.json(user);
@@ -175,7 +175,7 @@ app.put('/users/:Username', [
 });
 
 // Add a movie to user's favorites
-app.post('/users/:Username/movies/:MovieID', /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
+app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.findOneAndUpdate({ Username: req.params.Username }, {
     $push: { FavoriteMovies: req.params.MovieID }
   }, { new: true })
@@ -189,7 +189,7 @@ app.post('/users/:Username/movies/:MovieID', /*passport.authenticate('jwt', { se
 });
 
 // Delete a movie from user's favorites
-app.put('/users/:Username/movies/:MovieID', /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
+app.put('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.findOneAndUpdate({ Username: req.params.Username }, {
     $pull: { FavoriteMovies: req.params.MovieID }
   }, { new: true })
@@ -207,7 +207,7 @@ app.put('/users/:Username/movies/:MovieID', /*passport.authenticate('jwt', { ses
 });
 
 // Delete a user
-app.delete('/users/:Username', /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
+app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.findOneAndDelete({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
@@ -250,7 +250,7 @@ app.get('/movies/:Title', /*passport.authenticate('jwt', { session: false }),*/ 
 
 // Get the Genre by Genre Name
 // new code enhanced with the help of ChatGPT
-app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/movies/genre/:genreName', /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
   console.log(`Searching for genre: ${req.params.genreName}`);
 
   await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
