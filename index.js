@@ -325,7 +325,7 @@ app.get("/movies/Genre/:genreName", /*passport.authenticate('jwt', { session: fa
 
       res.status(200).json({
         Name: directorDetails.Name,
-        Bio: directorDetails.Description,
+        Bio: directorDetails.Bio,
         DateOfBirth: directorDetails.DateOfBirth,
         DeathYear: directorDetails.DeathYear,
       });
