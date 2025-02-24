@@ -132,22 +132,42 @@ app.post('/users', [
 });
 
 // Update allows to update their username
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/users/:Username', [
+  check('Username', 'Username is required').isLength({ min: 5 }),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear to be valid').isEmail()
+], async (req, res) => {
+  let errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
+    // Check if user is authorized to update this username
   if (req.user.Username !== req.params.Username) {
     return res.status(400).send("Permission denied");
   }
 
-  await Users.findOneAndUpdate({ Username: req.params.Username }, {
+   let hashedPassword = Users.hashPassword(req.body.Password);
+  
+  await Users.findOneAndUpdate(
+  { Username: req.params.Username }, 
+  {
     $set: {
       Username: req.body.Username,
-      Password: req.body.Password,
+      Password: hashedPassword,
       Email: req.body.Email,
       DateOfBirth: req.body.DateOfBirth
+          }
+  },
+  { new: true }
+)
+  .then(updatedUser => {
+    if (!updatedUser) {
+      return res.status(404).send("User not found");
     }
-  }, { new: true })
-    .then((updatedUser) => {
-      res.json(updatedUser).send("User has been updated");
-    })
+    res.json(updatedUser).send("User has been updated");
+  })
     .catch((err) => {
       console.error(err);
       res.status(500).send("Error: " + err);
@@ -205,7 +225,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 // MOVIES
 
 // Get the list of ALL movies and their data in JSON
-app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/movies', async (req, res) => {
   await Movies.find()
     .then((Movies) => {
       return res.status(201).json(Movies);
