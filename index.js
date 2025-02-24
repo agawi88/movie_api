@@ -266,20 +266,30 @@ app.get('/movies/genre/:genreName', /*passport.authenticate('jwt', { session: fa
 
 // Get data about the director by name
 
-app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
+app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
     .then((movies) => {
-      if (movies.length > 0) {
-        res.status(200).json(movies.map(movie => movie.Genre));
-      } else {
-        res.status(404).json({ message: "No such genre found" });
+      console.log("Found movies:", movies); // Debugging
+
+      if (movies.length === 0) {
+        return res.status(404).json({ message: "No such genre found" });
       }
+
+      // Extract only the first genre (assuming all are the same)
+      let genreDetails = movies[0].Genre;
+      console.log("Extracted genre details:", genreDetails); // Debugging
+
+      res.status(200).json({
+        Name: genreDetails.Name,
+        Description: genreDetails.Description
+      });
     })
     .catch((err) => {
       console.error("Database query error:", err.message);
       res.status(500).json({ error: "Internal Server Error" });
     });
 });
+
 
 /*app.get("/movies/director/:directorName", /*passport.authenticate('jwt', { session: false }), async (req, res) => {
   // await Movies.find({ "director.name": req.params.directorName })
