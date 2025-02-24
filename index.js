@@ -250,10 +250,10 @@ app.get('/movies/:Title', /*passport.authenticate('jwt', { session: false }),*/ 
 
 // Get the Genre by Genre Name
 app.get('/movies/genre/:genreName', /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
-  await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
+  await Movies.find({ "genre.name": { $regex: new RegExp(req.params.genreName, "i") } })
     .then((movie) => {
       if (movie) {
-        res.status(200).json(movie.Genre);
+        res.status(200).json(movie.genre);
       } else {
         res.status(404).send("No such genre");
       }
