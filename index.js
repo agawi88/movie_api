@@ -15,9 +15,9 @@ dotenv.config();
 const Movies = models.Movie;
 const Users = models.User;
 
-mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
-// mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connection.once('open', () => {
   console.log('MongoDB connection now open');
@@ -249,11 +249,11 @@ app.get('/movies/:Title', /*passport.authenticate('jwt', { session: false }),*/ 
 });
 
 // Get the Genre by Genre Name
-app.get('/movies/:genreName', /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
+app.get('/movies/genre/:genreName', /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
   await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
     .then((movie) => {
       if (movie) {
-        res.status(200).json(movie.Genre.Description);
+        res.status(200).json(movie.Genre);
       } else {
         res.status(404).send("No such genre");
       }
