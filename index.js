@@ -249,7 +249,7 @@ app.get('/movies/:Title', /*passport.authenticate('jwt', { session: false }),*/ 
 });
 
 // Get the Genre by Genre Name
-// new code enhanced with the help of ChatGPT
+/* new code enhanced with the help of ChatGPT
 app.get('/movies/genre/:genreName', async (req, res) => {
   console.log(`Searching for genre: ${req.params.genreName}`);
 
@@ -281,7 +281,7 @@ app.get('/movies/genre/:genreName', async (req, res) => {
       console.error("Database query error:", err.message);
       res.status(500).json({ error: "Internal Server Error" });
     });
-});
+});*/
 // old code which stopped working
 
 app.get("/movies/Genre/:genreName", /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
