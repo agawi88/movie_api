@@ -286,7 +286,7 @@ app.get("/movies/Genre/:genreName", /*passport.authenticate('jwt', { session: fa
   await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
     .then((movie) => {
       if (movie) {
-        res.status(200).json(movie.Genre);
+        res.status(200).json(movie.genre);
       } else {
         res.status(400).send("No such genre.");
       }
