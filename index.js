@@ -249,33 +249,25 @@ app.get('/movies/:Title', /*passport.authenticate('jwt', { session: false }),*/ 
 });
 
 // Get the Genre by Genre Name
-app.get('/movies/genre/:genreName', /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
-  await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
-    .then((movie) => {
-      if (movie) {
-        res.status(200).json(movie.Genre);
-      } else {
-        res.status(404).send("No such genre");
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
-});
-
-// Get data about the director by name
-
 app.get('/movies/genre/:genreName', async (req, res) => {
+  console.log(`Searching for genre: ${req.params.genreName}`);
+
   await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
     .then((movies) => {
       console.log("Found movies:", movies); // Debugging
 
       if (movies.length === 0) {
+        console.log("No movies found for this genre.");
         return res.status(404).json({ message: "No such genre found" });
       }
 
-      // Extract only the first genre (assuming all are the same)
+      // Check if Genre exists inside movies[0]
+      if (!movies[0].Genre) {
+        console.log("No Genre field found in the first movie.");
+        return res.status(500).json({ error: "Genre data is missing" });
+      }
+
+      // Extract genre details
       let genreDetails = movies[0].Genre;
       console.log("Extracted genre details:", genreDetails); // Debugging
 
