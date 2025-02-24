@@ -249,7 +249,7 @@ app.get('/movies/:Title', /*passport.authenticate('jwt', { session: false }),*/ 
 });
 
 // Get the Genre by Genre Name
-app.get('/movies/genre/:genreName', async (req, res) => {
+/*app.get('/movies/genre/:genreName', async (req, res) => {
   console.log(`Searching for genre: ${req.params.genreName}`);
 
   await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
@@ -280,10 +280,24 @@ app.get('/movies/genre/:genreName', async (req, res) => {
       console.error("Database query error:", err.message);
       res.status(500).json({ error: "Internal Server Error" });
     });
+});*/
+app.get("/movies/Genre/:genreName", /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
+  // await Movies.find({ "director.name": req.params.directorName })
+  await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
+    .then((movie) => {
+      if (movie) {
+        res.status(200).json(movie.genre);
+      } else {
+        res.status(400).send("No such genre.");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
-
-/*app.get("/movies/director/:directorName", /*passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get("/movies/Director/:directorName", /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
   // await Movies.find({ "director.name": req.params.directorName })
   await Movies.find({ "Director.Name": { $regex: new RegExp(req.params.directorName, "i") } })
     .then((movie) => {
@@ -297,7 +311,7 @@ app.get('/movies/genre/:genreName', async (req, res) => {
       console.error(err);
       res.status(500).send("Error: " + err);
     });
-});*/
+});
 
 app.use((err, req, res, next) => {
   console.log(err.stack);
