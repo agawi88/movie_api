@@ -250,7 +250,7 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), asyn
 
 // Get the Genre by Genre Name
 app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  await Movies.findOne({ "Genre.Name": req.params.genreName })
+  await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
     .then((movie) => {
       if (movie) {
         res.status(200).json(movie.Genre);
