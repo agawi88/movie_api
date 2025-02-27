@@ -37,55 +37,62 @@
     <th>Response Body Data Format</th>
 </tr>
 <tr>
+    <td> Allows a user tp log-in into their account.</td>
+    <td><b>/login</b></td>
+    <td>POST (Create)</td>
+    <td>In order to log-in it's necessary to pass two parameters in the Parameter section: Username and Password in order to get hold of the personalized JWT Token. This token needs to be applied in the Section "Authorization" under JWT Token. This allows the user to use other restricte endpoints.</td>
+    <td>A JSON object holding data about the user: user ID, Username, hashed Password, Email and DateofBirth AND a personalized JWT Token. The uuid creates a new
+        unique ID for the new user.</td>
+</tr>
+<tr>
     <td>Allows to get a list of all users</td>
     <td>/users</td>
     <td>GET (Read)</td>
-    <td>A JSON object holding data about the user, particularly the user's name that is being registered</td>
-    <td>A JSON object holding data about the user, particularly the user's name that has been added. The uuid creates a
-        new unique ID for the new user.</td>
+    <td> </td>
+    <td>A list of JSON objects holding data about the Users: user ID, Username, Password, Email and DateofBirth.</td>
 </tr>
 <tr>
     <td>Allows to get a User by Username</td>
     <td>/users/:Username</td>
     <td>GET (Read)</td>
-    <td>A JSON object holding data about the user, particularly the user's name that is being registered</td>
-    <td>A JSON object holding data about the user, particularly the user's name that has been added. The uuid creates a
-        new unique ID for the new user.</td>
-    </tr>
+    <td>No data in body</td>
+    <td>A JSON object holding data about the user: userID, Username, Password, Email and DateofBirth.</td>
+</tr>
 <tr>
-    <td> Allow to create a new username, that is: allow users to register</td>
+    <td> Allows users to register</td>
     <td>/users</td>
     <td>POST (Create)</td>
-    <td>A JSON object holding data about the user, particularly the user's name that is being registered</td>
-    <td>A JSON object holding data about the user, particularly the user's name that has been added. The uuid creates a new unique ID for the new user.</td>
+    <td>A JSON object holding data about the user: Username, Password, Email and DateofBirth.</td>
+    <td>A JSON object holding data about the user: user ID, Username, Password, Email and DateofBirth. The uuid creates a new unique ID for the new user.</td>
 </tr>
 <tr>
-    <td> Allow to update their username</td>
+    <td> Allows to update their username</td>
     <td>/users/:Username</td>
     <td>PUT (Update)</td>
-<td>A JSON object holding data about the user, containing user's new name that is being updated</td>
-<td>A JSON object holding data about the user, containing user's updated name</td>
+    <td>A JSON object holding data about the user: <b>NEW Username</b>, Password, Email and DateofBirth.</td>
+    <td>A JSON object holding data about the user: user ID, updated Username, Password, Email and DateofBirth.</td>
 </tr>
 <tr>
-    <td> Allow the user to add a movie to their favorits with just an info that it has been added
+    <td> Allows the user to add a movie to their favorits with just an info that it has been added
 </td>
     <td>/users/:Username/movies/:movieID</td>
     <td>POST (Create)</td>
-    <td>None</td>
+    <td>None. The ID number of the new favorite movie is being coveyed as an attribute. </td>
     <td>A text message that a movie has been added.</td>
 </tr>
 <tr>
-    <td>allows the user to delete a movie from their favorits with just an info that it has been deleted</td>
+    <td> Allows the user to delete a movie from their favorits with just an info that it has been deleted</td>
     <td>/Users/:Username/Movies/:movieID</td>
     <td>DELETE</td>
-    <td>None</td>
+    <td>None. The ID number of favorite movie to be deleted from the list of favorite movies is being coveyed as an attribute. </td>
     <td>Just a text message that the movie has been deleted from the favorites</td>
 </tr>
 <tr>
-    <td>allows the user to delete their user name</td>
+    <td> Allows the user to delete their user name</td>
     <td>/users/:Username</td>
     <td>DELETE</td>
-    <td>None</td>
+    <td>None. The Username to be deleted from the list of all users is being coveyed as an
+        attribute. </td>
     <td>Just a text message that the username has been deleted</td>
 </tr>
 <tr>
@@ -93,29 +100,29 @@
     <td>/movies</td>
     <td>GET (Read)</td>
     <td>None</td>
-    <td>A JSON object holding the data about the movies (description, genre, director, image URL, whether it’s featured or not)</td>
+    <td>A JSON object holding the data about the movies (title, release year, description, genre (name and definition), director (name, bio, year of birth and death, if applicable), image URL, whether it’s featured or not)</td>
 </tr>
 <tr>
     <td> Gets the data in JSON of a chosen movie by title. </td>
     <td>/Movies/:Title</td>
     <td>GET (Read)</td>
-    <td>None</td>
-    <td>A JSON object holding the data about a movie chosen by title (description, genre, director, image URL, whether it’s featured
-        or not)</td>
+    <td>None. The movie title is being coveyed as an attribute. </td>
+    <td>A JSON object holding the data about the movies (title, release year, description, genre (name and definition),
+        director (name, bio, year of birth and death, if applicable), image URL, whether it’s featured or not)</td>
 </tr>
 <tr>
     <td> Gets the data about a genre (description) by name (e.g., “Thriller”) </td>
-    <td>/movies/genres/:genreName</td>
+    <td>/movies/genre/:genreName</td>
     <td>GET (Read)</td>
-    <td>None</td>
-    <td>A JSON object holding the data about a genre by name and its description.</td>
+    <td>None. The genre name is being coveyed as an attribute. </td>
+    <td>A JSON object holding the data about a genre: name and its description.</td>
 </tr>
 <tr>
     <td> Gets the data about a director (bio, birth year, death year) by name; </td>
     <td>/movies/directors/:directorName</td>
     <td>GET (Read)</td>
-    <td>None</td>
-    <td>A JSON object holding the data about a director by name and its description.</td>
+    <td>None. Director's name is being coveyed as an attribute. </td>
+    <td>A JSON object holding the data about a director: name, bio and the year of birth and death, if applicable.</td>
 </tr>
 </table>
 
