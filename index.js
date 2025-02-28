@@ -287,7 +287,7 @@ app.get("/movies/Genre/:genreName", passport.authenticate('jwt', { session: fals
     });
 }); 
 
-// new code enhanced with the help of ChatGPT
+/* new code enhanced with the help of ChatGPT
  app.get('/movies/director/:directorName', async (req, res) => {
   console.log(`Searching for director: ${req.params.directorName}`);
 
@@ -321,12 +321,12 @@ app.get("/movies/Genre/:genreName", passport.authenticate('jwt', { session: fals
       console.error("Database query error:", err.message);
       res.status(500).json({ error: "Internal Server Error" });
     });
-});
+}); */
 
-/* old code stopped working...
-app.get("/movies/Director/:directorName", /* passport.authenticate('jwt', { session: false }), async (req, res) => {
-  // await Movies.find({ "director.name": req.params.directorName })
-  await Movies.find({ "Director.Name": { $regex: new RegExp(req.params.directorName, "i") } })
+// old code stopped working...
+app.get("/movies/Director/:directorName", passport.authenticate('jwt', { session: false }), async (req, res) => {
+  await Movies.findOne({ "Director.Name": req.params.directorName })
+  // await Movies.find({ "Director.Name": { $regex: new RegExp(req.params.directorName, "i") } })
     .then((movie) => {
       if (movie) {
         res.status(200).json(movie.Director);
@@ -338,7 +338,7 @@ app.get("/movies/Director/:directorName", /* passport.authenticate('jwt', { sess
       console.error(err);
       res.status(500).send("Error: " + err);
     });
-});*/
+});
 
 app.use((err, req, res, next) => {
   console.log(err.stack);
