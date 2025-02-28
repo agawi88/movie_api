@@ -124,16 +124,16 @@ app.put('/users/:Username', [
   check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
   check('Password', 'Password is required').not().isEmpty(),
   check('Email', 'Email does not appear to be valid').isEmail()
-], async (req, res) => {
+],  passport.authenticate('jwt', { session: false }), async (req, res) => {
   let errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
 
-    // Check if user is authorized to update this username
+    /* Check if user is authorized to update this username
   if (req.user.Username !== req.params.Username) {
     return res.status(400).send("Permission denied");
-  }
+  } */
 
    //let hashedPassword = Users.hashPassword(req.body.Password);
   
