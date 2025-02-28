@@ -236,8 +236,8 @@ app.get('/movies/:Title', /*passport.authenticate('jwt', { session: false }),*/ 
 });
 
 // Get the Genre by Genre Name
-// new code enhanced with the help of ChatGPT
-app.get('/movies/genre/:genreName', /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
+/* new code enhanced with the help of ChatGPT
+app.get('/movies/genre/:genreName', /*passport.authenticate('jwt', { session: false }), async (req, res) => {
   console.log(`Searching for genre: ${req.params.genreName}`);
 
   await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
@@ -268,10 +268,10 @@ app.get('/movies/genre/:genreName', /*passport.authenticate('jwt', { session: fa
       console.error("Database query error:", err.message);
       res.status(500).json({ error: "Internal Server Error" });
     });
-});
-/* old code which stopped working
+}); */
+// old code which stopped working
 
-app.get("/movies/Genre/:genreName", /*passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get("/movies/Genre/:genreName", passport.authenticate('jwt', { session: false }), async (req, res) => {
   //await Movies.find({ "Genre".Name": req.params.genreName })
   await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
     .then((movie) => {
@@ -285,7 +285,7 @@ app.get("/movies/Genre/:genreName", /*passport.authenticate('jwt', { session: fa
       console.error(err);
       res.status(500).send("Error: " + err);
     });
-}); */
+}); 
 
 // new code enhanced with the help of ChatGPT
  app.get('/movies/director/:directorName', async (req, res) => {
