@@ -272,8 +272,8 @@ app.get('/movies/genre/:genreName', /*passport.authenticate('jwt', { session: fa
 // old code which stopped working
 
 app.get("/movies/Genre/:genreName", passport.authenticate('jwt', { session: false }), async (req, res) => {
-  //await Movies.find({ "Genre".Name": req.params.genreName })
-  await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
+  await Movies.find({ "Genre.Name": req.params.genreName })
+  //await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
     .then((movie) => {
       if (movie) {
         res.status(200).json(movie.Genre);
