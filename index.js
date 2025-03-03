@@ -235,45 +235,8 @@ app.get('/movies/:Title', /*passport.authenticate('jwt', { session: false }),*/ 
     });
 });
 
-// Get the Genre by Genre Name
-/* new code enhanced with the help of ChatGPT
-app.get('/movies/genre/:genreName', /*passport.authenticate('jwt', { session: false }), async (req, res) => {
-  console.log(`Searching for genre: ${req.params.genreName}`);
-
-  await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
-    .then((movies) => {
-      console.log("Found movies:", movies); // Debugging
-
-      if (movies.length === 0) {
-        console.log("No movies found for this genre.");
-        return res.status(404).json({ message: "No such genre found" });
-      }
-
-      // Check if Genre exists inside movies[0]
-      if (!movies[0].Genre) {
-        console.log("No Genre field found in the first movie.");
-        return res.status(500).json({ error: "Genre data is missing" });
-      }
-
-      // Extract genre details
-      let genreDetails = movies[0].Genre;
-      console.log("Extracted genre details:", genreDetails); // Debugging
-
-      res.status(200).json({
-        Name: genreDetails.Name,
-        Description: genreDetails.Description
-      });
-    })
-    .catch((err) => {
-      console.error("Database query error:", err.message);
-      res.status(500).json({ error: "Internal Server Error" });
-    });
-}); */
-// old code which stopped working
-
 app.get("/movies/Genre/:genreName", passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Movies.findOne({ "Genre.Name": req.params.genreName })
-  //await Movies.find({ "Genre.Name": { $regex: new RegExp(req.params.genreName, "i") } })
     .then((movie) => {
       if (movie) {
         res.status(200).json(movie.Genre);
@@ -287,46 +250,8 @@ app.get("/movies/Genre/:genreName", passport.authenticate('jwt', { session: fals
     });
 }); 
 
-/* new code enhanced with the help of ChatGPT
- app.get('/movies/director/:directorName', async (req, res) => {
-  console.log(`Searching for director: ${req.params.directorName}`);
-
-  await Movies.find({ "Director.Name": { $regex: new RegExp(req.params.directorName, "i") } })
-    .then((movies) => {
-      console.log("Found movies:", movies); // Debugging
-
-      if (movies.length === 0) {
-        console.log("No movies found for this director.");
-        return res.status(404).json({ message: "No such director found" });
-      }
-
-      // Check if Director exists inside movies[0]
-      if (!movies[0].Director) {
-        console.log("No Director field found in the first movie.");
-        return res.status(500).json({ error: "Director data is missing" });
-      }
-
-      // Extract director details
-      let directorDetails = movies[0].Director;
-      console.log("Extracted director details:", directorDetails); // Debugging
-
-      res.status(200).json({
-        Name: directorDetails.Name,
-        Bio: directorDetails.Bio,
-        DateOfBirth: directorDetails.DateOfBirth,
-        DeathYear: directorDetails.DeathYear,
-      });
-    })
-    .catch((err) => {
-      console.error("Database query error:", err.message);
-      res.status(500).json({ error: "Internal Server Error" });
-    });
-}); */
-
-// old code stopped working...
 app.get("/movies/Director/:directorName", passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Movies.findOne({ "Director.Name": req.params.directorName })
-  // await Movies.find({ "Director.Name": { $regex: new RegExp(req.params.directorName, "i") } })
     .then((movie) => {
       if (movie) {
         res.status(200).json(movie.Director);
