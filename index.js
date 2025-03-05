@@ -235,7 +235,7 @@ app.get('/movies/:Title', /*passport.authenticate('jwt', { session: false }),*/ 
     });
 });
 
-app.get("/movies/Genre/:genreName", passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get("/movies/Genre/:genreName", /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
   await Movies.findOne({ "Genre.Name": req.params.genreName })
     .then((movie) => {
       if (movie) {
@@ -250,7 +250,7 @@ app.get("/movies/Genre/:genreName", passport.authenticate('jwt', { session: fals
     });
 }); 
 
-app.get("/movies/Director/:directorName", passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get("/movies/Director/:directorName", /*passport.authenticate('jwt', { session: false }),*/ async (req, res) => {
   await Movies.findOne({ "Director.Name": req.params.directorName })
     .then((movie) => {
       if (movie) {
