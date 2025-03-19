@@ -129,13 +129,6 @@ app.put('/users/:Username', [
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
-
-    /* Check if user is authorized to update this username
-  if (req.user.Username !== req.params.Username) {
-    return res.status(400).send("Permission denied");
-  } */
-
-   //let hashedPassword = Users.hashPassword(req.body.Password);
   
   await Users.findOneAndUpdate(
   { Username: req.params.Username }, 
