@@ -73,6 +73,14 @@
     <td>A JSON object holding data about the user: user ID, updated Username, Password, Email and DateofBirth.</td>
 </tr>
 <tr>
+    <td> Gets user's full list of favorites movies and their Data in JSON</td>
+    <td>/users/:Username/movies</td>
+    <td>GET (Read)</td>
+    <td>None</td>
+    <td>A JSON object holding the data about the movies (title, release year, description, genre (name and definition),
+        director (name, bio, year of birth and death, if applicable), image URL, whether it’s featured or not)</td>
+</tr>
+<tr>
     <td> Allows the user to add a movie to their favorits with just an info that it has been added
 </td>
     <td>/users/:Username/movies/:movieID</td>

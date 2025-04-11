@@ -161,6 +161,22 @@ app.put('/users/:Username', [
     });
 });
 
+//Get User's favorite movies
+app.get('/users/:Username/FavoriteMovies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  await Users.findOne({ "FavoriteMovies": req.params.FavoriteMovies })
+    .then((user) => {
+      if (user) {
+        res.status(200).json(user.FavoriteMovies);
+      } else {
+        res.status(400).send("No favorite movies.");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
+
 // Add a movie to user's favorites
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.findOneAndUpdate({ Username: req.params.Username }, {
@@ -212,7 +228,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 // MOVIES
 
 // Get the list of ALL movies and their data in JSON
-app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/movies',/*  passport.authenticate('jwt', { session: false }), */ async (req, res) => {
   await Movies.find()
     .then((Movies) => {
       return res.status(201).json(Movies);
