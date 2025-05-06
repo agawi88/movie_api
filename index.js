@@ -120,10 +120,10 @@ app.post('/users', [
 
 // Update allows to update their username
 app.put('/users/:Username', [
-  check('Username', 'Username is required').isLength({ min: 5 }),
-  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-  check('Password', 'Password is required').not().isEmpty(),
-  check('Email', 'Email does not appear to be valid').isEmail()
+  check('Username'/* , 'Username is required' */).optional().isLength({ min: 5 }).withMessage("Username must be at least 5 characters long"),
+  check('Username' /* 'Username contains non alphanumeric characters - not allowed.' */).isAlphanumeric().withMessage("Username must consist ONLY of alphanumeric characters"),
+  check('Password'/* , 'Password is required' */).optional().notEmpty().withMessage("Password is required"),
+  check('Email').optional().isEmail().withMessage('Email does not appear to be valid'),
 ],  passport.authenticate('jwt', { session: false }), async (req, res) => {
   let errors = validationResult(req);
   if (!errors.isEmpty()) {
