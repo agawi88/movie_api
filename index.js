@@ -15,7 +15,8 @@ let allowedOrigins =
     'http://localhost:5173',
     'http://testsite.com',
   'http://localhost:1234',
-  'https://gbmoviesflix.netlify.app'
+  'https://gbmoviesflix.netlify.app',
+  'http://localhost:4200'
 ];
 
 dotenv.config();
