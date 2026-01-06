@@ -17,6 +17,8 @@ let allowedOrigins =
   'http://localhost:1234',
   'https://gbmoviesflix.netlify.app',
   'http://localhost:4200',
+  'https://myflix-agawi88.netlify.app',
+  'https://agawi88.github.io',
   'https://gb-movies-api-cab43a70da98.herokuapp.com/',
   'https://agawi88.github.io/myFlix-Angular-client/welcome'
 ];
