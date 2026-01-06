@@ -17,7 +17,8 @@ let allowedOrigins =
   'http://localhost:1234',
   'https://gbmoviesflix.netlify.app',
   'http://localhost:4200',
-  'https://gb-movies-api-cab43a70da98.herokuapp.com/'
+  'https://gb-movies-api-cab43a70da98.herokuapp.com/',
+  'https://agawi88.github.io/myFlix-Angular-client/welcome'
 ];
 
 dotenv.config();
