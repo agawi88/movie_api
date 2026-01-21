@@ -1,3 +1,9 @@
+/**
+ * Main application file for the myFlix Movie API.
+ * Sets up Express server, database connection, middleware,
+ * authentication, and RESTful API routes.
+ */
+
 const express = require("express");
 const morgan = require("morgan");
 const passport = require("passport");
@@ -9,6 +15,10 @@ const mongoose = require("mongoose");
 const models = require("./models.js");
 const bcryptjs = require("bcryptjs");
 const dotenv = require("dotenv");
+
+/**
+ * Enables CORS for approved origins only
+ */
 const cors = require("cors");
 let allowedOrigins =
   ['http://localhost:8080',
@@ -25,8 +35,16 @@ let allowedOrigins =
 
 dotenv.config();
 
+/**
+ * Mongoose models for Movies and Users
+ */
+
 const Movies = models.Movie;
 const Users = models.User;
+
+/**
+ * Connects to MongoDB using Mongoose
+ */
 
 // mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -56,6 +74,10 @@ app.use(cors({
     }
 }));
 
+/**
+ * Initializes authentication and Passport JWT strategy
+ */
+
 require('./auth')(app);
 require('./passport');
 
@@ -78,9 +100,15 @@ app.get('/secreturl', (req, res) => {
 
 app.get('/documentation.html');
 
-// USERS
+          /*  =====  USERS =====  */
 
-// Get all users
+// GET / Return a list of all users          
+/**
+ * Returns a list of all users
+ * @route GET /users
+ * @authentication JWT
+ * @returns {Array<Object>} List of users
+ */
 
 app.get('/users', passport.authenticate('jwt', { session: false }),  async (req, res) => {
   await Users.find()
@@ -93,8 +121,14 @@ app.get('/users', passport.authenticate('jwt', { session: false }),  async (req,
     });
 });
 
-// Get a user by username
 
+// GET / Return a user by username
+/**
+ * Returns a user by username
+ * @route GET /users/:Username
+ * @authentication JWT
+ * @returns {Object} User object matching the given username
+ */
 app.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.findOne({ Username: req.params.Username })
     .then((user) => {
@@ -106,7 +140,17 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), as
     });
 });
 
-// Add a user (cannot have passport-authentication in order to allow users to register)
+// POST / add a new user
+/**
+ * Registers a new user
+ * @route POST /users
+ * @param {Object} req.body - User registration data
+ * @param {string} req.body.Username - User's username
+ * @param {string} req.body.Password - User's password
+ * @param {string} req.body.Email - User's email address
+ * @param {Date} req.body.DateOfBirth - User's date of birth
+ * @returns {Object} Newly created user object
+ */
 
 app.post('/users', [
   check('Username', 'Username is required').isLength({ min: 5 }),
@@ -144,7 +188,14 @@ app.post('/users', [
     });
 });
 
-// Update allows to update their username
+// PUT Update username
+/**
+ * Updates a user's information
+ * @route PUT /users/:Username
+ * @authentication JWT
+ * @param {string} Username - Username of the user to update
+ * @returns {Object} Updated user object
+ */
 
 app.put('/users/:Username', [
   check('Username'/* , 'Username is required' */).optional().isLength({ min: 5 }).withMessage("Username must be at least 5 characters long"),
@@ -182,6 +233,12 @@ app.put('/users/:Username', [
 });
 
 //Get User's favorite movies
+/**
+ * Returns a user's list of favorite movies
+ * @route GET /users/:Username/FavoriteMovies
+ * @authentication JWT
+ * @returns {Array<Object>} List of favorite movies
+ */
 
 app.get('/users/:Username/FavoriteMovies', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.findOne({ "Username": req.params.Username }).populate('FavoriteMovies')
@@ -200,21 +257,13 @@ app.get('/users/:Username/FavoriteMovies', passport.authenticate('jwt', { sessio
 
 // Add a movie to user's favorites
 //  $addToSet instead of $push to avoid duplicates
+/**
+ * Adds a movie to a user's list of favorite movies
+ * @route POST /users/:Username/movies/:MovieID
+ * @authentication JWT
+ * @returns {Array<ObjectId>} Updated list of favorite movie IDs
+ */
 
-
-/* app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  await Users.findOneAndUpdate(
-    { Username: req.params.Username }, 
-    { $push: { FavoriteMovies: req.params.MovieID } },
-    { new: true })
-    .then((updatedUser) => {
-      res.json(updatedUser).send(req.params.MovieID + " has been added to user " + req.params.Username + "'s array");
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error: " + err, "no such user!");
-    });
-}); */
 app.post('/users/:Username/movies/:MovieID',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
@@ -239,24 +288,12 @@ app.post('/users/:Username/movies/:MovieID',
 
 
 // Delete a movie from user's favorites
-
-/* app.put('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  await Users.findOneAndUpdate(
-    { Username: req.params.Username }, 
-    { $pull: { FavoriteMovies: req.params.MovieID }}, 
-    { new: true })
-    .then((updatedUser) => {
-      if (!updatedUser) {
-        res.status(400).send(req.params.Username + ' was not found');
-      } else {
-        res.json(updatedUser).send(req.params.MovieID + " has been deleted from user " + req.params.Username + "'s array");
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
-}); */
+/**
+ * Removes a movie from a user's list of favorite movies
+ * @route PUT /users/:Username/movies/:MovieID
+ * @authentication JWT
+ * @returns {Array<ObjectId>} Updated list of favorite movie IDs
+ */
 
 app.put('/users/:Username/movies/:MovieID',
   passport.authenticate('jwt', { session: false }),
@@ -280,8 +317,13 @@ app.put('/users/:Username/movies/:MovieID',
   }
 );
 
-
 // Delete a user
+/**
+ * Deletes a user by username with all connected data
+ * @route DELETE /users/:Username
+ * @authentication JWT
+ * @returns {Object} Confirmation message
+ */
 
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Users.findOneAndDelete({ Username: req.params.Username })
@@ -298,9 +340,15 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
     });
 });
 
-// MOVIES
+            /* =====  MOVIES  =====  */
 
-// Get the list of ALL movies and their data in JSON
+// GET / Return all movies
+/**
+ * Returns a list of all movies
+ * @route GET /movies
+ * @authentication JWT
+ * @returns {Array<Object>} List of movies
+ */
 
 app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Movies.find()
@@ -313,7 +361,13 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
     });
 });
 
-// Get the data about a single movie, by name
+// GET / Return a movie by movie title
+/**
+ * Returns movie information by movie title
+ * @route GET /movies/:Title
+ * @authentication JWT
+ * @returns {Object} Movie object matching the given title
+ */
 
 app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Movies.findOne({ Title: req.params.Title })
@@ -325,6 +379,14 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), asyn
       res.status(500).send("Error: " + err);
     });
 });
+
+// GET / Return genre info by genre name
+/**
+ * Returns genre information by genre name
+ * @route GET /movies/Genre/:genreName
+ * @authentication JWT
+ * @returns {Object} Genre object containing name and description
+ */
 
 app.get("/movies/Genre/:genreName", passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Movies.findOne({ "Genre.Name": req.params.genreName })
@@ -341,6 +403,13 @@ app.get("/movies/Genre/:genreName", passport.authenticate('jwt', { session: fals
     });
 }); 
 
+// GET / Return director info by director's name
+/**
+ * Returns director information by director name
+ * @route GET /movies/Director/:directorName
+ * @authentication JWT
+ * @returns {Object} Director object containing name, bio, date of birth and date of passing
+ */
 
 app.get("/movies/Director/:directorName", passport.authenticate('jwt', { session: false }), async (req, res) => {
   await Movies.findOne({ "Director.Name": req.params.directorName })
@@ -356,6 +425,10 @@ app.get("/movies/Director/:directorName", passport.authenticate('jwt', { session
       res.status(500).send("Error: " + err);
     });
 });
+
+/**
+ * Global error-handling middleware
+ */
 
 app.use((err, req, res, next) => {
   console.log(err.stack);

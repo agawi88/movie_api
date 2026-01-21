@@ -2,6 +2,20 @@ const mongoose = require('mongoose');
 
 const bcryptjs = require('bcryptjs');
 
+
+/**
+ * Movie schema representing a movie in the database
+ * @typedef {Object} Movie
+ * @property {string} Title - Movie title
+ * @property {number} ReleaseYear - Year the movie was released
+ * @property {string} Setting - Location where the movie is set
+ * @property {string} Description - Movie description
+ * @property {Object} Genre - Genre information
+ * @property {Object} Director - Director information
+ * @property {Array<ObjectId>} Actors - List of actors
+ * @property {boolean} Featured - Whether the movie is featured
+ */
+
 let movieSchema = mongoose.Schema({
     Title: { type: String, required: true },
     ReleaseYear: { type: Number},
@@ -28,6 +42,16 @@ let movieSchema = mongoose.Schema({
     Featured: { type: Boolean, required: false },
 });
 
+/**
+ * User schema representing an application user in the database
+ * @typedef {Object} User
+ * @property {string} Username - User's unique username
+ * @property {string} Password - User's hashed password
+ * @property {string} Email - User's email address
+ * @property {Date} DateOfBirth - User's birthday
+ * @property {Array<ObjectId>} FavoriteMovies - List of favorited movies by movie IDs
+ */
+
 let userSchema = mongoose.Schema({
     Username: { type: String, required: true },
     Password: { type: String, required: true },
@@ -35,6 +59,12 @@ let userSchema = mongoose.Schema({
     DateOfBirth: { type: Date, required: true },
     FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
 });
+
+/**
+ * Hashes a plaintext password
+ * @param {string} password - Plaintext password
+ * @returns {string} Hashed password
+ */
 
 userSchema.statics.hashPassword = (password) => {
   return bcryptjs.hashSync(password, 10);
@@ -49,54 +79,3 @@ let User = mongoose.model('User', userSchema);
 
 module.exports.Movie = Movie;
 module.exports.User = User;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*  For future use after the end of the course: the Movies_side of the App can be extended and optimized. Either by the use of references below or by switching to a relational DB /SQL.
-
-Genres: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Genre' }], 
-Directors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Director' }],
-Actors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Actor' }], 
-
-let genreSchema = mongoose.Schema ({
-    Name: {type: String, required: true},
-    Description: {type: String, required: true},
-});
-    
-   let directorSchema = mongoose.Schema ({
-   Name: {type: String, required: true},
-   Bio: {type: String, required: true},
-   DateOfBirth: {type: Date, required: true},
-   DeathYear: {type: Date, required: true},
-   });
- 
-   let actorSchema = mongoose.Schema ({
-   Name: {type: String, required: true},
-   Bio: {type: String, required: true},
-   DateOfBirth: {type: Date, required: true},
-   DeathYear: {type: Date, required: true},
-   });
-   
-   let Genre = mongoose.model('Genre', genreSchema);
-   let Director = mongoose.model('Director', directorSchema);
-   let Actor = mongoose.model('Actor', actorSchema);
-
-   module.exports.Genre = Genre;
-   module.exports.Director = Director;
-   module.exports.Actor = Actor;
-    
-    */

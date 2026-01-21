@@ -1,3 +1,7 @@
+/**
+ * Authentication routes and logic for user login using JWT
+ */
+
 const jwtSecret = 'your_jwt_secret';
 
 const jwt = require('jsonwebtoken'),
@@ -6,6 +10,12 @@ const jwt = require('jsonwebtoken'),
 require('./passport');
 Models = require('./models.js');
 
+/**
+ * Generates a JSON Web Token for an authenticated user
+ * @param {Object} user - Authenticated user object
+ * @returns {string} JWT token
+ */
+
 let generateJWTToken = (user) => {
     return jwt.sign(user, jwtSecret, {
         subject: user.Username,
@@ -13,7 +23,14 @@ let generateJWTToken = (user) => {
         algorithm: 'HS256'
     });
 }
-// POST login.
+
+/**
+ * Authenticates user login and returns a JWT token
+ * @route POST /login
+ * @param {string} Username - User's username
+ * @param {string} Password - User's password
+ * @returns {Object} Authentication response with user data and JWT token
+*/
 
 module.exports = (router) => {
     router.post('/login', (req, res) => {
